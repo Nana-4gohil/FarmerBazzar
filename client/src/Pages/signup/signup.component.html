@@ -1,7 +1,7 @@
 <div class="signup-container">
   <div *ngIf="loading" class="loader">
     <!-- Add loader here -->
-    Loading...
+    Loading..
   </div>
   <div *ngIf="!loading">
     <div class="signup-content">
@@ -10,7 +10,7 @@
       </div>
       <div class="signup-form">
         <h1 class="signup-title">
-          <b class="title">Sign Up</b>
+          <b class="title">Sign Up</b>    
         </h1>  
         <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
           <div class="signup-inputs">
