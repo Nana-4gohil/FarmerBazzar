@@ -1,53 +1,41 @@
 import admin from '../firebase.js';
-import {createUser,getUserByUID} from '../models/userModel.js';
+import { createUser, getUserByUID } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
-
-const validatePassword = (password) => {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
-  if (!regex.test(password)) {
-    throw new Error(
-      'Password must be at least 6 characters long, include one uppercase letter, one lowercase letter, and one special character'
-    );
-  }
-};
 
 class authController {
   // Signup Method
   static signup = async (req, res) => {
-    const { fullName, email, password, repassword, mobileNumber, profilePicture } = req.body;
+    const {email,firstName,lastName,password,phoneNumber,state} = req.body;
     try {
-      if (password !== repassword) {
-        return res.status(400).json({ message: "Passwords do not match" });
-      }
-
+    
       // Check if email is already taken
       const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
       if (existingUser) {
-        return res.status(400).json({ error: "Email is already taken", success: false });
+        return res.status(400).json({ error: "Email is already taken" });
       }
-
-      // Validate password
-      validatePassword(password);
-
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 16);
+      // const hashedPassword = await bcrypt.hash(password, 16);
 
       // Create user in Firebase Authentication
       const firebaseUser = await admin.auth().createUser({
         email,
-        password: hashedPassword,
-        displayName: fullName,
-        photoURL: profilePicture || null,
+        password,
+        firstName,
+        lastName
+        // photoURL: profilePicture || null,
       });
 
       // Add user to Firestore database
       const userData = {
         uid: firebaseUser.uid,
-        fullName,
+        firstName,
+        lastName,
         email,
-        mobileNumber,
-        profilePicture: firebaseUser.photoURL || null,
+        phoneNumber,
+        state,
+        password
+        // profilePicture: firebaseUser.photoURL || null,
       };
       const result = await createUser(userData);
 
@@ -62,43 +50,7 @@ class authController {
     }
   };
 
-  // Google Signup Method
-  static googleSignup = async (req, res) => {
-    const {idToken, mobileNumber } = req.body;
-
-    try {
-      // Verify Google ID token
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      const { uid, email, name, picture } = decodedToken;
-
-      // Check if user already exists in Firestore
-      const existingUser = await admin.auth().getUser(uid).catch(() => null);
-
-      if (!existingUser) {
-        // Add new Google user to Firestore
-        const userData = {
-          uid,
-          fullName: name,
-          email,
-          mobileNumber,
-          profilePicture: picture || null,
-        };
-        const result = await createUser(userData);
-
-        if (result.success) {
-          return res.status(201).json({ user: userData, success: true });
-        } else {
-          return res.status(500).json({ error: "Error saving Google user to Firestore", success: false });
-        }
-      } else {
-        return res.status(200).json({ user: existingUser, success: true });
-      }
-    } catch (error) {
-      console.error("Google Signup error:", error.message);
-      return res.status(500).json({ error: error.message, success: false });
-    }
-  };
-
+ 
   // Login Method
   static login = async (req, res) => {
     try {
@@ -106,8 +58,10 @@ class authController {
 
       // Validate Firebase user
       const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
+      console.log(userRecord.password)
       const hashedPassword = await bcrypt.hash(password, 10);
       const isMatch = await bcrypt.compare(password, hashedPassword);
+     
       if (!userRecord || !isMatch) {
         return res.status(400).json({ error: "Invalid username or password" });
       }
