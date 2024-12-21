@@ -11,15 +11,25 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",
+<<<<<<< HEAD
     "@angular/common": "^18.2.13",
+=======
+    "@angular/cdk": "^17.0.0",
+    "@angular/common": "^18.2.0",
+>>>>>>> 0811e27db1db886444ff2227125df33c2a606a42
     "@angular/compiler": "^18.2.0",
     "@angular/core": "^18.2.13",
     "@angular/fire": "^18.0.1",
     "@angular/forms": "^18.2.0",
+    "@angular/material": "^17.0.0",
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@fortawesome/angular-fontawesome": "^0.10.2",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
     "firebase": "^11.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

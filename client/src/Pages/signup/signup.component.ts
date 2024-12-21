@@ -9,15 +9,19 @@ import {
   
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
+import { AuthService } from '../../Services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,RouterLink],
+  imports: [ReactiveFormsModule, CommonModule,RouterLink,PulseLoaderComponent],
   templateUrl: './signup.component.html',
    styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
+  constructor(private router: Router,private authService: AuthService){}
   signupForm!: FormGroup;
   loading = false;
   registrationSuccess = false;
@@ -57,7 +61,7 @@ export class SignupComponent implements OnInit {
   ]);
   confirmPassword = new FormControl('', Validators.required);
 
-  constructor(private router: Router) {}
+
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -83,26 +87,29 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
-
     const { password, confirmPassword } = this.signupForm.value;
     if (password !== confirmPassword) {
       this.confirmPassword.setErrors({ mismatch: true });
       return;
     }
-
-    this.loading = true;
-
-    // Simulate API call and navigate
-    setTimeout(() => {
-      this.loading = false;
-      this.registrationSuccess = true;
-
+     
+      this.loading = true;
       const userData = this.signupForm.value;
-      console.log('User Data:', userData);
-
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 3000);
-    }, 2000);
+      this.authService.Signup(userData).subscribe({
+        
+        next: (res) => {
+          console.log('Response:', res);
+          this.router.navigate(['/login'])
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        },
+        complete: () => {
+          console.log('Signup observable complete');
+          this.loading = false
+        },
+       
+      });
+      
   }
 }

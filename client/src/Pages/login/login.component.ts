@@ -6,14 +6,13 @@ import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.comp
 import { AuthService } from '../../Services/auth.service';
 
 
+
 @Component({
   selector: 'app-login',
   standalone:true,
   imports:[ReactiveFormsModule,CommonModule,RouterLink,PulseLoaderComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
- 
- 
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -36,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   passwordValidator(control: any) {
     const value = control.value;
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&#])[A-Za-z\d$@$!%*?&#]{8,}$/;
+    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&#])[A-Za-z\d$@$!%*?&#]{2,}$/;
     return regex.test(value) ? null : { invalidPassword: true };
   }
 
@@ -45,31 +44,25 @@ export class LoginComponent implements OnInit {
   }
 
   async handleLogin(): Promise<void> {
-    // if (this.loginForm.valid) {
-    //   const { email, password } = this.loginForm.value;
-    //   this.loading = true;
+    if (this.loginForm.valid) {
+      const userData = this.loginForm.value;
+      this.loading = true;
+      this.authService.Login(userData).subscribe({
+        next: (res) => {
+          console.log('Response:', res);
+          this.router.navigate(['/dashboard'])
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        },
+        complete: () => {
+          this.loading = false
+        },
+      })
+    }else{
+      return;
+    }
 
-    //   try {
-    //     // const flag = await this.loginService.loginUser({ email, password });
-    //     if (flag) {
-    //       localStorage.setItem('email', email);
-    //       this.router.navigate(['/dashboard']);
-    //     } else {
-    //       this.passwordError = 'Invalid email or password';
-    //     }
-    //   } catch (error) {
-    //     console.error('Login error:', error);
-    //   } finally {
-    //     this.loading = false;
-    //   }
-    // } else {
-    //   this.emailError = this.loginForm.get('email')?.hasError('email')
-    //     ? 'Enter a valid Gmail address'
-    //     : '';
-    //   this.passwordError = this.loginForm.get('password')?.hasError('invalidPassword')
-    //     ? 'Password must contain at least one uppercase letter, one number, one lowercase letter, one special character, and be at least 8 characters long'
-    //     : '';
-    // }
   }
 
   async handleGoogleSignIn(): Promise<void> {
@@ -80,13 +73,6 @@ export class LoginComponent implements OnInit {
     }catch(err){
       console.log(err);
     }
-    // try {
-    //   const result = await this.afAuth.signInWithPopup(provider);
-    //   if (result.user) {
-    //     
-    //   }
-    // } catch (error) {
-    //   console.error('Google Sign-In error:', error);
-    // }
+
   }
 }

@@ -9,7 +9,7 @@ router.post('/signup/request-otp',authContrtoller.requestOtp)
 router.post('/signup/verify-and-complete',authContrtoller.signup)
 router.post('/login',authContrtoller.login)
 router.get('/logout',authContrtoller.logout)
-router.post('/googlesignup',verifyToken,authContrtoller.googleSignup)
 router.get('/me',verifyToken,authContrtoller.getMe)
 
 export default router
+ 

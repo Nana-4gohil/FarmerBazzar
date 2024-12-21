@@ -1,9 +1,10 @@
 import admin from '../firebase.js';
-import {createUser,getUserByUID} from '../models/userModel.js';
+import { createUser, getUserByUID } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto'
 import sendMail from '../utils/mailer.js';
 
+<<<<<<< HEAD
 const otpStore = {}; 
 const validatePassword = (password) => {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
@@ -37,6 +38,9 @@ const verifyotp = (email,otp)=>{
       delete otpStore[email];
       return { success: true, message: 'Email verified successfully!' };
     }
+=======
+
+>>>>>>> 0811e27db1db886444ff2227125df33c2a606a42
 class authController {
 
   static requestOtp = async (req, res) => {
@@ -77,6 +81,7 @@ class authController {
   };
   // Signup Method
   static signup = async (req, res) => {
+<<<<<<< HEAD
      const { firstName,lastName, email,mobileNumber,state,password,repassword,Otp} = req.body;
     try {    
      const otpVerification = verifyotp(email,Otp);
@@ -88,23 +93,31 @@ class authController {
         return res.status(400).json({ message: "Passwords do not match" });
       }
 
+=======
+    const {email,firstName,lastName,password,phoneNumber,state} = req.body;
+    try {
+    
+>>>>>>> 0811e27db1db886444ff2227125df33c2a606a42
       // Check if email is already taken
       const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
       if (existingUser) {
-        return res.status(400).json({ error: "Email is already taken", success: false });
+        return res.status(400).json({ error: "Email is already taken" });
       }
-
-      // Validate password
-      validatePassword(password);
-
       // Hash password
-      const hashedPassword = await bcrypt.hash(password, 16);
+      // const hashedPassword = await bcrypt.hash(password, 16);
 
       // Create user in Firebase Authentication
       const firebaseUser = await admin.auth().createUser({
         email,
+<<<<<<< HEAD
         password: hashedPassword,
         displayName: firstName,
+=======
+        password,
+        firstName,
+        lastName
+        // photoURL: profilePicture || null,
+>>>>>>> 0811e27db1db886444ff2227125df33c2a606a42
       });
 
       // Add user to Firestore database
@@ -113,8 +126,15 @@ class authController {
         firstName,
         lastName,
         email,
+<<<<<<< HEAD
         mobileNumber,
         state
+=======
+        phoneNumber,
+        state,
+        password
+        // profilePicture: firebaseUser.photoURL || null,
+>>>>>>> 0811e27db1db886444ff2227125df33c2a606a42
       };
       const result = await createUser(userData);
 
@@ -129,43 +149,7 @@ class authController {
     }
   };
 
-  // Google Signup Method
-  static googleSignup = async (req, res) => {
-    const {idToken, mobileNumber } = req.body;
-
-    try {
-      // Verify Google ID token
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      const { uid, email, name, picture } = decodedToken;
-
-      // Check if user already exists in Firestore
-      const existingUser = await admin.auth().getUser(uid).catch(() => null);
-
-      if (!existingUser) {
-        // Add new Google user to Firestore
-        const userData = {
-          uid,
-          fullName: name,
-          email,
-          mobileNumber,
-          profilePicture: picture || null,
-        };
-        const result = await createUser(userData);
-
-        if (result.success) {
-          return res.status(201).json({ user: userData, success: true });
-        } else {
-          return res.status(500).json({ error: "Error saving Google user to Firestore", success: false });
-        }
-      } else {
-        return res.status(200).json({ user: existingUser, success: true });
-      }
-    } catch (error) {
-      console.error("Google Signup error:", error.message);
-      return res.status(500).json({ error: error.message, success: false });
-    }
-  };
-
+ 
   // Login Method
   static login = async (req, res) => {
     try {
@@ -173,8 +157,10 @@ class authController {
 
       // Validate Firebase user
       const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
+      console.log(userRecord.password)
       const hashedPassword = await bcrypt.hash(password, 10);
       const isMatch = await bcrypt.compare(password, hashedPassword);
+     
       if (!userRecord || !isMatch) {
         return res.status(400).json({ error: "Invalid username or password" });
       }

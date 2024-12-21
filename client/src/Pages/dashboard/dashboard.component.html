@@ -1,0 +1,72 @@
+<app-errorboundary>
+    <div class="dashboard-container">
+      <div class="content">
+        <ng-container *ngIf="loading; else mainContent">
+          <div class="loader-container">
+            <app-pulse-loader [loading]="loading" [color]="'#1b591c'" [size]="20"></app-pulse-loader>
+          </div>
+        </ng-container>
+        <ng-template #mainContent>
+          <div>
+            <div class="topbar">
+              <ng-container *ngIf="activeSection === 'dashboard'">
+                <div class="user-info">
+                  <img src="assets/male.png" alt="User Icon" class="user-photo">
+                  <div class="username">
+                    <span class="user-name1">Welcome Back,</span>
+                    <span class="user-name">UserName</span>
+                  </div>
+                  <fa-icon [icon]="faChevronDown" class="icondown" (click)="toggleUserProfile()"></fa-icon>
+                  <ng-container *ngIf="showUserProfile">
+                    <div class="user-profile-dropdown">
+                      <button class="up1" (click)="viewProfile()">
+                        <fa-icon [icon]="fque" class="icon1"></fa-icon> Terms & Conditions
+                      </button>
+                      <button class="up2" (click)="feedback()">
+                        <fa-icon [icon]="faFile" class="icon2"></fa-icon> feedback
+                      </button>
+                      <button class="up3" (click)="faqs()">
+                        <fa-icon [icon]="faHelp" class="icon3"></fa-icon> FAQ's
+                      </button>
+                      <button class="up4" (click)="logout()">
+                        <fa-icon [icon]="faLogout" class="icon4"></fa-icon> Logout
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+            <div class="sidebar">
+              <app-sidebar [activeSection]="activeSection" (sectionChange)="handleSectionChange($event)"></app-sidebar>
+            </div>
+            <div class="main-content">
+              <ng-container [ngSwitch]="activeSection">
+                <ng-container *ngSwitchCase="'dashboard'">
+                  <app-temp-chart></app-temp-chart>
+                  <p class='sup1'>Summary of production</p>
+                  <!-- <app-production-comparison-chart></app-production-comparison-chart>
+                  <app-todo-wrapper></app-todo-wrapper> -->
+                  <a routerLink="/dashboard/community-forum">
+                    <img src="assets/connect.png" class='connect-img' alt="User Icon">
+                  </a>
+                  <div class="hover-container">
+                    <a routerLink="/dashboard/view-info" class="link-button">
+                      <img class='connect-img-box' src="assets/front.png" alt="Celebrating Agriculture">
+                      <button class="hover-button">Click here</button>
+                    </a>
+                  </div>
+                </ng-container>
+                <!-- <app-climate *ngSwitchCase="'climate'"></app-climate>
+                <app-crop-inventory *ngSwitchCase="'cropInventory'"></app-crop-inventory>
+                <app-crop-recommendations *ngSwitchCase="'croprecommendations'"></app-crop-recommendations>
+                <app-fertilizer *ngSwitchCase="'fertilizer'"></app-fertilizer>
+                <app-market *ngSwitchCase="'market'"></app-market>
+                <app-news *ngSwitchCase="'news'"></app-news> -->
+              </ng-container>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </app-errorboundary>
+  
