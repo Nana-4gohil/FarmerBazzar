@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
+import { AuthService } from '../../Services/auth.service';
 
 
 @Component({
@@ -12,19 +13,18 @@ import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.comp
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
  
+ 
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loading: boolean = true;
+  loading: boolean = false;
   showPassword: boolean = false;
   emailError: string = '';
   passwordError: string = '';
-
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    // private afAuth: AngularFireAuth,
-    // private loginService: LoginService
+   private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -73,12 +73,17 @@ export class LoginComponent implements OnInit {
   }
 
   async handleGoogleSignIn(): Promise<void> {
-    // const provider = new GoogleAuthProvider();
+    try{
+      var user = await this.authService.loginWithGoogle();
+      localStorage.setItem('email', user?.email || '');
+      this.router.navigate(['/dashboard']);
+    }catch(err){
+      console.log(err);
+    }
     // try {
     //   const result = await this.afAuth.signInWithPopup(provider);
     //   if (result.user) {
-    //     localStorage.setItem('email', result.user.email || '');
-    //     this.router.navigate(['/dashboard']);
+    //     
     //   }
     // } catch (error) {
     //   console.error('Google Sign-In error:', error);

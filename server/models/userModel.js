@@ -4,12 +4,13 @@ const db = admin.firestore();
 const userCollection = db.collection("users")
  const createUser = async (userData)=>{
            try{
-            const {uid,fullName,email,mobileNumber, profilePicture} = userData
+            const {uid,firstName,lastName,email,mobileNumber, state} = userData
               await userCollection.doc(uid).set({
-                   fullName,
+                   firstName,
+                   lastName,
                    email,
                    mobileNumber,
-                   profilePicture,
+                   state,
                    createdAt: admin.firestore.FieldValue.serverTimestamp(),
                 });
                 return {success : true};

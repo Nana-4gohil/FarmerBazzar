@@ -1,8 +1,10 @@
 import admin from '../firebase.js';
 import {createUser,getUserByUID} from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto'
+import sendMail from '../utils/mailer.js';
 
-
+const otpStore = {}; 
 const validatePassword = (password) => {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
   if (!regex.test(password)) {
@@ -12,11 +14,76 @@ const validatePassword = (password) => {
   }
 };
 
+const verifyotp = (email,otp)=>{
+       if(!email || !otp){
+            return {success:false,error:"Email and OTP requires"}
+       }
+       const record = otpStore[email]
+       console.log(record)
+       if(!record){
+           return {success:false,error:"Invalid or Expired OTP"}
+       }
+
+       const isOtpValid = record.otp=== parseInt(otp,10)
+       const isOtpExpired = Date.now() - record.createdAt > 10 * 60 * 1000;
+      
+       if (isOtpExpired) {
+        delete otpStore[email];
+        return { success: false, error: 'OTP expired' };
+      }
+      if (!isOtpValid) {
+        return { success: false, error: 'Invalid OTP' };
+      }
+      delete otpStore[email];
+      return { success: true, message: 'Email verified successfully!' };
+    }
 class authController {
+
+  static requestOtp = async (req, res) => {
+    const { email } = req.body;
+    try {
+      // Check if email is already taken
+      const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
+      if (existingUser) {
+        return res.status(400).json({ error: 'Email is already taken', success: false });
+      }
+
+      if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+      }
+    
+      // Generate OTP
+      const otp = crypto.randomInt(100000,1000000);
+    
+      // Store OTP
+      otpStore[email] = {
+        otp,
+        createdAt: Date.now(),
+      };
+    
+      // Send email
+        console.log(otp)
+      try {
+        await sendMail(email, 'Your OTP Code', `Your OTP for FarmerBazzar is ${otp}. Valid for 10 minutes. Ignor The mail if it is not you`);
+        res.status(200).json({ message: 'OTP sent successfully!' });
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to send email' });
+        console.log(error)
+      }
+    } catch (error) {
+      console.error('Error requesting OTP:', error.message);
+      res.status(500).json({ error: 'Failed to request OTP' });
+    }
+  };
   // Signup Method
   static signup = async (req, res) => {
-    const { fullName, email, password, repassword, mobileNumber, profilePicture } = req.body;
-    try {
+     const { firstName,lastName, email,mobileNumber,state,password,repassword,Otp} = req.body;
+    try {    
+     const otpVerification = verifyotp(email,Otp);
+      if (!otpVerification.success) {
+        return res.status(400).json({ error: otpVerification.error });
+      }
+
       if (password !== repassword) {
         return res.status(400).json({ message: "Passwords do not match" });
       }
@@ -37,17 +104,17 @@ class authController {
       const firebaseUser = await admin.auth().createUser({
         email,
         password: hashedPassword,
-        displayName: fullName,
-        photoURL: profilePicture || null,
+        displayName: firstName,
       });
 
       // Add user to Firestore database
       const userData = {
         uid: firebaseUser.uid,
-        fullName,
+        firstName,
+        lastName,
         email,
         mobileNumber,
-        profilePicture: firebaseUser.photoURL || null,
+        state
       };
       const result = await createUser(userData);
 
