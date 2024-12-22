@@ -1,31 +1,74 @@
 import admin from '../firebase.js';
 import { createUser, getUserByUID } from '../models/userModel.js';
 import  { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import bcrypt from 'bcryptjs';
+import crypto from 'crypto'
+import sendMail from '../utils/mailer.js';
 
-
+const otpStore = {}; 
 
 class authController {
-  // Signup Method
-  static signup = async (req, res) => {
-    const {email,firstName,lastName,password,phoneNumber,state} = req.body;
+
+  static requestOtp = async (req, res) => {
+    const { email } = req.body;
     try {
-    
       // Check if email is already taken
       const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
       if (existingUser) {
-        return res.status(400).json({ error: "Email is already taken" });
+        return res.status(400).json({ error: 'Email is already taken', success: false });
       }
-      // Hash password
-      // const hashedPassword = await bcrypt.hash(password, 16);
+
+      if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+      }
+    
+      // Generate OTP
+      const otp = crypto.randomInt(100000,1000000);
+    
+      // Store OTP
+      otpStore[email] = {
+        otp,
+        createdAt: Date.now(),
+      };
+    
+      // Send email
+        console.log(otp)
+      try {
+        await sendMail(email, 'Your OTP Code', `Your OTP for FarmerBazzar is ${otp}. Valid for 10 minutes. Ignor The mail if it is not you`);
+        res.status(200).json({ message: 'OTP sent successfully!' });
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to send email' });
+        console.log(error)
+      }
+    } catch (error) {
+      console.error('Error requesting OTP:', error.message);
+      res.status(500).json({ error: 'Failed to request OTP' });
+    }
+  };
+  // Signup Method
+  static signup = async (req, res) => {
+     const { firstName,lastName, email,phoneNumber,state,password,Otp} = req.body;
+    try {    
+     const otpVerification = verifyotp(email,Otp);
+      if (!otpVerification.success) {
+        return res.status(400).json({ error: otpVerification.error });
+      }
+
+      if (password !== repassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+      }
+
+      // Check if email is already taken
+      const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
+      if (existingUser) {
+        return res.status(400).json({ error: "Email is already taken", success: false });
+      }
+
 
       // Create user in Firebase Authentication
       const firebaseUser = await admin.auth().createUser({
         email,
-        password,
-        firstName,
-        lastName
-        // photoURL: profilePicture || null,
+        password: hashedPassword,
+        displayName: firstName,
       });
 
       // Add user to Firestore database
@@ -51,8 +94,6 @@ class authController {
     }
   };
 
- 
-  // Login Method
   static login = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -61,13 +102,9 @@ class authController {
       // const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
       const auth = getAuth()
       const userCredential = await signInWithEmailAndPassword(auth,email, password);
-      // const user = userCredential.user;
-
-      console.log(userCredential.user)
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const isMatch = await bcrypt.compare(password, hashedPassword);
-     
-      if (!userRecord || !isMatch) {
+   
+      const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
+      if (!userRecord) {
         return res.status(400).json({ error: "Invalid username or password" });
       }
 
