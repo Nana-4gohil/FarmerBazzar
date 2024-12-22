@@ -11,7 +11,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { AuthService } from '../../Services/auth.service';
-import { HttpClientModule } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { VerifyEmailPopupComponent } from '../../utils/verify-email-popup/verify-email-popup.component';
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
    styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  constructor(private router: Router,private authService: AuthService){}
+  constructor(private router: Router,private authService: AuthService,
+    private dialog: MatDialog
+  ){}
   signupForm!: FormGroup;
   loading = false;
   registrationSuccess = false;
@@ -47,17 +50,17 @@ export class SignupComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   
   phoneNumber = new FormControl('', [
-    Validators.required,
-    Validators.pattern(/^\d{10}$/),
+    // Validators.required,
+    // Validators.pattern(/^\d{10}$/),
   ]);
   state = new FormControl('', Validators.required);
   password = new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-    Validators.pattern(/(?=.*[A-Z])/),
-    Validators.pattern(/(?=.*[a-z])/),
-    Validators.pattern(/(?=.*\d)/),
-    Validators.pattern(/(?=.*[!@#$%^&*])/),
+    // Validators.required,
+    // Validators.minLength(8),
+    // Validators.pattern(/(?=.*[A-Z])/),
+    // Validators.pattern(/(?=.*[a-z])/),
+    // Validators.pattern(/(?=.*\d)/),
+    // Validators.pattern(/(?=.*[!@#$%^&*])/),
   ]);
   confirmPassword = new FormControl('', Validators.required);
 
@@ -84,32 +87,30 @@ export class SignupComponent implements OnInit {
   }
 
   handleSignup() {
-    if (this.signupForm.invalid) {
-      return;
-    }
-    const { password, confirmPassword } = this.signupForm.value;
-    if (password !== confirmPassword) {
-      this.confirmPassword.setErrors({ mismatch: true });
-      return;
-    }
+    // if (this.signupForm.invalid) {
+    //   return;
+    // }
+    const { password, confirmPassword,email } = this.signupForm.value;
+    // if (password !== confirmPassword) {
+    //   this.confirmPassword.setErrors({ mismatch: true });
+    //   return;
+    // }
      
       this.loading = true;
       const userData = this.signupForm.value;
-      this.authService.Signup(userData).subscribe({
-        
-        next: (res) => {
-          console.log('Response:', res);
-          this.router.navigate(['/login'])
-        },
-        error: (err) => {
-          console.error('Error:', err);
-        },
-        complete: () => {
-          console.log('Signup observable complete');
-          this.loading = false
-        },
-       
+      const dialogRef = this.dialog.open(VerifyEmailPopupComponent, {
+        width: '400px',
+        data:{userData} // Pass email to popup
       });
-      
+      dialogRef.componentInstance.verificationResult.subscribe((result: boolean) => {
+        if (result) {
+          console.log('Email verified successfully');
+          // Redirect to login page or perform other actions
+        } else {
+          console.log('Email verification failed');
+          // Show failure message or retry logic
+        }
+      });
+    
   }
 }

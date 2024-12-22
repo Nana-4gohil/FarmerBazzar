@@ -1,6 +1,8 @@
 import admin from '../firebase.js';
 import { createUser, getUserByUID } from '../models/userModel.js';
+import  { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import bcrypt from 'bcryptjs';
+
 
 
 class authController {
@@ -34,7 +36,6 @@ class authController {
         email,
         phoneNumber,
         state,
-        password
         // profilePicture: firebaseUser.photoURL || null,
       };
       const result = await createUser(userData);
@@ -57,8 +58,12 @@ class authController {
       const { email, password } = req.body;
 
       // Validate Firebase user
-      const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
-      console.log(userRecord.password)
+      // const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
+      const auth = getAuth()
+      const userCredential = await signInWithEmailAndPassword(auth,email, password);
+      // const user = userCredential.user;
+
+      console.log(userCredential.user)
       const hashedPassword = await bcrypt.hash(password, 10);
       const isMatch = await bcrypt.compare(password, hashedPassword);
      

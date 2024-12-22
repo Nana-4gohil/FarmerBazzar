@@ -24,9 +24,9 @@ export class TempChartComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // this.fetchWeatherData();
-    // this.setDateInfo();
-    // this.initializeChart();
+    this.fetchWeatherData();
+    this.setDateInfo();
+    this.initializeChart();
   }
 
   fetchWeatherData(): Observable<any> {
