@@ -13,8 +13,11 @@ export class AuthService {
   Login(user:any) : Observable<any>{
        return this.http.post(`${this.url}/login`,user)
   }
+  RequestOTP(email:any):Observable<any>{
+     return this.http.post(`${this.url}/signup/request-otp`,{email})
+  }
   Signup(user:any):Observable<any>{
-     return this.http.post(`${this.url}/signup`,user)
+    return this.http.post(`${this.url}/signup/verify-and-complete`,user)
   }
   // Sign in with Google
   async loginWithGoogle(): Promise<any> {

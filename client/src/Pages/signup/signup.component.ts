@@ -40,7 +40,6 @@ export class SignupComponent implements OnInit {
   ];
 
   countryCode = [
-    '+91',
     '+92',
     '+93'
   ]
@@ -63,8 +62,6 @@ export class SignupComponent implements OnInit {
     // Validators.pattern(/(?=.*[!@#$%^&*])/),
   ]);
   confirmPassword = new FormControl('', Validators.required);
-
-
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -96,7 +93,7 @@ export class SignupComponent implements OnInit {
     //   return;
     // }
      
-      this.loading = true;
+      // this.loading = true;
       const userData = this.signupForm.value;
       const dialogRef = this.dialog.open(VerifyEmailPopupComponent, {
         width: '400px',
@@ -108,6 +105,7 @@ export class SignupComponent implements OnInit {
           // Redirect to login page or perform other actions
         } else {
           console.log('Email verification failed');
+          // this.loading = false;
           // Show failure message or retry logic
         }
       });
