@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup,ReactiveFormsModule, Validators } from '@angular
 import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { AuthService } from '../../Services/auth.service';
+import { NgToastService } from 'ng-angular-popup';
 
 
 
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-   private authService: AuthService
+   private authService: AuthService,
+   private toast:NgToastService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -49,15 +51,14 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       this.authService.Login(userData).subscribe({
         next: (res) => {
-          console.log('Response:', res);
+          this.toast.success('Login successful');
           this.router.navigate(['/dashboard'])
         },
         error: (err) => {
-          console.error('Error:', err);
+           this.toast.danger(err.error.error);
+           this.loading = false;
         },
-        complete: () => {
-          this.loading = false
-        },
+      
       })
     }else{
       return;

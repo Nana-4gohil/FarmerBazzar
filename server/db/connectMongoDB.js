@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+
 import dotenv from 'dotenv'
 import { initializeApp } from "firebase-admin/app";
 dotenv.config()
@@ -15,7 +15,7 @@ const connectDB = async ()=>{
       //   }
 
       try{
-            const firebaseApp = initializeApp(firebaseConfig);
+           
             const auth = getAuth(firebaseApp);
             return auth
       }catch(err){

@@ -1,8 +1,9 @@
 import admin from '../firebase.js';
 import { createUser, getUserByUID } from '../models/userModel.js';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import {getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import crypto from 'crypto'
 import sendMail from '../utils/mailer.js';
+import { auth } from '../server.js';
 
 const otpStore = {};
 const verifyotp = (email, otp) => {
@@ -10,7 +11,7 @@ const verifyotp = (email, otp) => {
     return { success: false, error: "Email and OTP requires" }
   }
   const record = otpStore[email]
-  console.log(record)
+  // console.log(record)
   if (!record) {
     return { success: false, error: "Invalid or Expired OTP" }
   }
@@ -75,10 +76,10 @@ class authController {
         return res.status(400).json({ error: otpVerification.error });
       }
       // Check if email is already taken
-      const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
-      if (existingUser) {
-        return res.status(400).json({ error: "Email is already taken", success: false });
-      }
+      // const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
+      // if (existingUser) {
+      //   return res.status(400).json({ error: "Email is already taken", success: false });
+      // }
       // Create user in Firebase Authentication
       const firebaseUser = await admin.auth().createUser({
         email,
@@ -110,35 +111,29 @@ class authController {
 
   static login = async (req, res) => {
     try {
-      const { email, password } = req.body;
-
-      // Validate Firebase user
-      // const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
-      const auth = getAuth()
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      const userRecord = await admin.auth().getUserByEmail(email).catch(() => null);
-      if (!userRecord) {
+      const { email, password } = req.body;;
+      const userCredential = await signInWithEmailAndPassword(auth,email, password);
+      if (!userCredential) {
         return res.status(400).json({ error: "Invalid username or password" });
       }
 
       // Retrieve user details from Firestore
-      const user = await getUserByUID(userRecord.uid);
+      const user = await getUserByUID(userCredential.user.uid);
 
       if (!user) {
         return res.status(400).json({ error: "User not found in database" });
       }
 
       // Generate a custom token for session management (optional)
-      const customToken = await admin.auth().createCustomToken(userRecord.uid);
+      const customToken = await admin.auth().createCustomToken(userCredential.user.uid);
 
       return res.status(200).json({
         user,
         token: customToken,
       });
     } catch (error) {
-      console.error("Login error:", error.message);
-      return res.status(500).json({ error: "Internal Server Error" });
+      // console.error("Login error:", error.message);
+      return res.status(400).json({ error: "Invalid username or password" });
     }
   };
 
@@ -147,6 +142,7 @@ class authController {
     try {
       // Invalidate session on client side
       res.clearCookie("jwt");
+      await auth.signOut();
       return res.status(200).send({ message: "Successfully logged out" });
     } catch (error) {
       console.error("Logout error:", error.message);

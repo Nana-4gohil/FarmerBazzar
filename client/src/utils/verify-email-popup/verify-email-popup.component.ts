@@ -10,9 +10,6 @@ import { NgToastService } from 'ng-angular-popup'
   selector: 'app-verify-email-popup',
   standalone:true,
   imports:[FormsModule,CommonModule],
-  animations:[
-
-  ],
   templateUrl: './verify-email-popup.component.html',
   styleUrls: ['./verify-email-popup.component.css']
 })
@@ -31,12 +28,13 @@ export class VerifyEmailPopupComponent implements OnInit {
       
       this.authService.RequestOTP(this.user.email).subscribe({
         next: (res) => {
+          this.toast.success(res.message)
           this.showModal = true
-          console.log('Response:', res);
         },
         error: (err) => {
           this.showModal = false;
-          this.toast.success(err.error.error);
+          this.toast.danger(err.error.error);
+  
         },
         complete: () => {
           console.log('RequestOTP observable complete');
@@ -55,16 +53,11 @@ export class VerifyEmailPopupComponent implements OnInit {
     this.user.otp = this.otp
     this.authService.Signup(this.user).subscribe({
       next: (res) => {
-        // console.log('Response:', res);
-        // this.verificationResult.emit(true)
-        // alert('Email verified successfully! Redirecting to login page.');
+        this.toast.success('Email verified successfully...')
         this.router.navigate(['/login'])
       },
       error: (err) => {
-        console.error('Error:', err);
-        this.errorMessage = 'The email is not verified. Please try again.';
-        this.verificationResult.emit(false); 
-        this.showModal = false;
+        this.toast.danger(err.error.error);
       },
       complete: () => {
         console.log('Signup observable complete');

@@ -99,16 +99,6 @@ export class SignupComponent implements OnInit {
         width: '400px',
         data:{userData} // Pass email to popup
       });
-      dialogRef.componentInstance.verificationResult.subscribe((result: boolean) => {
-        if (result) {
-          console.log('Email verified successfully');
-          // Redirect to login page or perform other actions
-        } else {
-          console.log('Email verification failed');
-          // this.loading = false;
-          // Show failure message or retry logic
-        }
-      });
-    
+      
   }
 }

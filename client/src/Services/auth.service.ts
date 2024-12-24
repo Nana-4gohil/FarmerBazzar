@@ -46,6 +46,4 @@ export class AuthService {
   getUser(): Observable<any> {
     return authState(this.auth);
   }
-
-
 }
