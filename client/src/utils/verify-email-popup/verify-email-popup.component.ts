@@ -33,7 +33,7 @@ export class VerifyEmailPopupComponent implements OnInit {
         },
         error: (err) => {
           this.showModal = false;
-          this.toast.danger(err.error.error);
+          this.toast.danger(err.error.error || 'Internal Server Erorr..');
   
         },
         complete: () => {

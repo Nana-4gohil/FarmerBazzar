@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard'])
         },
         error: (err) => {
-           this.toast.danger(err.error.error);
+           this.toast.danger(err.error.error || 'Internal Server Error..');
            this.loading = false;
         },
       

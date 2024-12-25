@@ -20,9 +20,14 @@ export class AuthService {
     return this.http.post(`${this.url}/signup/verify-and-complete`,user)
   }
   // Sign in with Google
+ 
   async loginWithGoogle(): Promise<any> {
+    // Force the user to select an account every time
     try {
       const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: 'select_account', // This forces the account selection prompt
+      });
       const result = await signInWithPopup(this.auth, provider);
       return result.user
     } catch (error) {
