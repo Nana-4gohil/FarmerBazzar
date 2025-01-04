@@ -1,51 +1,51 @@
-<div class="sidebar">
-    <ul>
-      <p class="p1">Home</p>
-      <li [class.active] = "activeSection === 'dashboard'" (click)="handleSectionChange('dashboard')">
-        <fa-icon [icon]="faTh" class="icon"></fa-icon>
-        <span>Dashboard</span>
-      </li>
-      <p class="p2">Services</p>
-      <li [class.active]="activeSection === 'climate'" (click)="handleSectionChange('climate')">
-        <fa-icon [icon]="faCloud" class="icon"></fa-icon>
-        <span>Climate</span>
-      </li>
-      <li [class.active]="activeSection === 'cropInventory'" (click)="handleSectionChange('cropInventory')">
-        <fa-icon [icon]="faWarehouse" class="icon"></fa-icon>
-        <span>Crop Inventory</span>
-      </li>
-      <li [class.active]="activeSection === 'croprecommendations'" (click)="handleSectionChange('croprecommendations')">
-        <fa-icon [icon]="faSeedling" class="icon"></fa-icon>
-        <span>Crop Recommendations</span>
-      </li>
-      <li [class.active]="activeSection === 'fertilizer'" (click)="handleSectionChange('fertilizer')">
-        <fa-icon [icon]="faFlask" class="icon"></fa-icon>
-        <span>Fertilizer Recommendations</span>
-      </li>
-      <li [class.active]="activeSection === 'market'" (click)="handleSectionChange('market')">
-        <fa-icon [icon]="faStore" class="icon"></fa-icon>
-        <span>Market</span>
-      </li>
-      <li [class.active]="activeSection === 'news'" (click)="handleSectionChange('news')">
-        <fa-icon [icon]="faNewspaper" class="icon"></fa-icon>
-        <span>News</span>
-      </li>
-    </ul>
-    
-    <div>
-      <a href="https://grandmaratha.org/" target="_blank" rel="noopener noreferrer">
-        <!-- <img class="donate" src="assets/donate.jpg" alt="donate" /> -->
-      </a>
-    </div>
-  
-    <hr class="divider" />
-  
-    <div class="logout-container">
+<!-- 
+  <hr class="divider" />
 
-      <button class="logout-button" (click)="logout()">
-        <fa-icon [icon]="faLogout" class="w-5"></fa-icon>
-        Logout
-      </button>
-    </div>
+  <div class="logout-container">
+
+    <button class="logout-button" (click)="logout()">
+      <fa-icon [icon]="faLogout" class="w-5"></fa-icon>
+      Logout
+    </button>
   </div>
-  
+</div> -->
+
+<div class="fixed left-0 top-0 w-67 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
+  <a href="#" class="flex items-center border-b border-b-gray-800">
+    <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover">
+    <span class="text-lg font-bold text-white ml-3">Logo</span>
+  </a>
+  <ul class="mt-4 text-white">
+    <p class="p1">Home</p>
+    <li [class.active] = "activeSection === 'dashboard'" (click)="handleSectionChange('dashboard')">
+      <fa-icon [icon]="faTh" class="icon"></fa-icon>
+      <span>Dashboard</span>
+    </li>
+    <p class="p2">Services</p>
+   <hr class="divider" />
+    <li [class.active]="activeSection === 'climate'" (click)="handleSectionChange('climate')">
+      <fa-icon [icon]="faCloud" class="icon"></fa-icon>
+      <span>Climate</span>
+    </li>
+    <li [class.active]="activeSection === 'cropInventory'" (click)="handleSectionChange('cropInventory')">
+      <fa-icon [icon]="faWarehouse" class="icon"></fa-icon>
+      <span>Crop Inventory</span>
+    </li>
+    <li [class.active]="activeSection === 'croprecommendations'" (click)="handleSectionChange('croprecommendations')">
+      <fa-icon [icon]="faSeedling" class="icon"></fa-icon>
+      <span>Crop Recommendations</span>
+    </li>
+    <li [class.active]="activeSection === 'fertilizer'" (click)="handleSectionChange('fertilizer')">
+      <fa-icon [icon]="faFlask" class="icon"></fa-icon>
+      <span>Fertilizer Recommendations</span>
+    </li>
+    <li [class.active]="activeSection === 'market'" (click)="handleSectionChange('market')">
+      <fa-icon [icon]="faStore" class="icon"></fa-icon>
+      <span>Market</span>
+    </li>
+    <li [class.active]="activeSection === 'news'" (click)="handleSectionChange('news')">
+      <fa-icon [icon]="faNewspaper" class="icon"></fa-icon>
+      <span>News</span>
+    </li>
+  </ul>
+</div>

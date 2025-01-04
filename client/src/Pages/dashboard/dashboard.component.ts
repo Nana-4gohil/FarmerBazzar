@@ -9,12 +9,16 @@ import { faQuestionCircle, faCircleQuestion ,faFile,
 } from '@fortawesome/free-solid-svg-icons';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TempChartComponent } from '../temp-chart/temp-chart.component';
+import { CropComponent } from '../../Components/crop/crop.component';
+import { CropRecommendationsComponent } from '../../Predict/crop-recommendations/crop-recommendations.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule,FontAwesomeModule,PulseLoaderComponent,ErrorBoundaryComponent,
     SidebarComponent,
-    TempChartComponent
+    TempChartComponent,
+    CropComponent,
+    CropRecommendationsComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

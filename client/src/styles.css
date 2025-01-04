@@ -1,6 +1,8 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+  
 .toast-message {
     &.toast-success {
       border-left: 3px solid #22c55e;
@@ -18,3 +20,20 @@
       border-left: 3px solid #f59e0b;
     }
   }
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color:#F6F6E9;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Reem Kufi", sans-serif!important ;
+  }
+
+  
+  
+  
+  
+  

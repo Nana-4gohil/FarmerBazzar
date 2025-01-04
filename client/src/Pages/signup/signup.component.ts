@@ -11,7 +11,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { AuthService } from '../../Services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog  } from '@angular/material/dialog';
 import { VerifyEmailPopupComponent } from '../../utils/verify-email-popup/verify-email-popup.component';
 
 @Component({
