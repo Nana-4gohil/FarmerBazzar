@@ -7,6 +7,8 @@ app = Flask(__name__)
 # Load the trained Random Forest model
 with open('crop_recommendation_rf.pkl', 'rb') as file:
     model = pickle.load(file)
+fertimodel = pickle.load(open('classifier.pkl','rb'))
+ferti = pickle.load(open('fertilizer.pkl','rb'))
 
 # Load Label Encoder (if needed)
 from sklearn.preprocessing import LabelEncoder
@@ -37,6 +39,30 @@ def predict_crop():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
 
+# Predict Fertilizeer
+@app.route('/predict-ferti', methods=['POST'])
+def predict_fertilizer():
+    try:
+        data = request.json
+        temp = data.get('temperature')
+        humi = data.get('humidity')
+        mois = data.get('mositure')
+        soil = data.get('soil')
+        crop = data.get('crop')
+        nitro = data.get('nitrogen')
+        phos = data.get('phosphorous')
+        pot = data.get('potassium')
+
+        # Check if all parameters are present
+        if None in [temp, humi ,mois,soil,crop,nitro,pot,phos]:
+            return jsonify({'error': 'Missing required parameters'}), 400
+        input_data = np.array([[temp, humi ,mois,soil,crop,nitro,pot,phos]])
+        prediction = fertimodel.predict(input_data)
+        res = ferti.classes_[prediction]
+        return jsonify({'Fertilizer':res[0]})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
