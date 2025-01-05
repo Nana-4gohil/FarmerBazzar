@@ -8,30 +8,17 @@
           <input 
             class="form-control" 
             type="number" 
-            formControlName="soil_ph" 
+            formControlName="ph" 
             required 
           />
-          <div *ngIf="formControls['soil_ph'].invalid && formControls['soil_ph'].touched" class="text-danger small mt-1">
-            <p *ngIf="formControls['soil_ph'].errors?.['required']">Soil pH is required.</p>
-            <p *ngIf="formControls['soil_ph'].errors?.['min']">Soil pH must be between 0 and 14.</p>
-            <p *ngIf="formControls['soil_ph'].errors?.['max']">Soil pH must be between 0 and 14.</p>
+          <div *ngIf="formControls['ph'].invalid && formControls['ph'].touched" class="text-danger small mt-1">
+            <p *ngIf="formControls['ph'].errors?.['required']">Soil pH is required.</p>
+            <p *ngIf="formControls['ph'].errors?.['min']">Soil pH must be between 0 and 14.</p>
+            <p *ngIf="formControls['ph'].errors?.['max']">Soil pH must be between 0 and 14.</p>
           </div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Soil Moisture:</label>
-          <input 
-            class="form-control" 
-            type="number" 
-            formControlName="soil_moisture" 
-            required 
-          />
-          <div *ngIf="formControls['soil_moisture'].invalid && formControls['soil_moisture'].touched" class="text-danger small mt-1">
-            <p *ngIf="formControls['soil_moisture'].errors?.['required']">Soil moisture is required.</p>
-            <p *ngIf="formControls['soil_moisture'].errors?.['min']">Soil moisture must be between 0 and 100.</p>
-            <p *ngIf="formControls['soil_moisture'].errors?.['max']">Soil moisture must be between 0 and 100.</p>
-          </div>
-        </div>
+        
 
         <div class="mb-3">
           <label class="form-label">Temperature:</label>

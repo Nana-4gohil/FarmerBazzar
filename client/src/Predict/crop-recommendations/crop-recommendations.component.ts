@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { PredictService } from '../../Services/predict.service';
 
 @Component({
   selector: 'app-crop-recommendations',
@@ -15,12 +16,9 @@ export class CropRecommendationsComponent {
   loading = false;
   error = '';
   cropImage = 'assets/croprec.avif'; // Placeholder image
-  showConfetti = false;
-
-  constructor() {
+  constructor(private predictService: PredictService) {
     this.cropForm = new FormGroup({
-      soil_ph: new FormControl('', [Validators.required, Validators.min(0), Validators.max(14)]),
-      soil_moisture: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)]),
+      ph: new FormControl('', [Validators.required, Validators.min(0), Validators.max(14)]),
       temperature: new FormControl('', [Validators.required, Validators.min(-50), Validators.max(60)]),
       rainfall: new FormControl('', [Validators.required, Validators.min(0), Validators.max(500)]),
       humidity: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)])
@@ -31,42 +29,58 @@ export class CropRecommendationsComponent {
     return this.cropForm.controls;
   }
 
-  async handleSubmit(event: Event) {
+  handleSubmit(event: Event) {
     event.preventDefault();
     if (this.cropForm.invalid) {
       return;
     }
     this.loading = true;
-    this.error = '';
-    this.showConfetti = false;
-    try {
-      switch (this.recommendedCrop) {
-        case 'Wheat':
-          this.cropImage = './assets/wheat.jpg';
-          break;
-        case 'Rice':
-          this.cropImage = './assets/rice.jpg';
-          break;
-        case 'Barley':
-          this.cropImage = './assets/barley.jpg';
-          break;
-        case 'Maize':
-          this.cropImage = './assets/maize.jpg';
-          break;
-        case 'Sugarcane':
-          this.cropImage = './assets/sugarcane.avif';
-          break;
-        default:
-          this.cropImage = './assets/croprec.avif';
-      }
+    this.error = ''
+    this.predictService.CropPredict(this.cropForm.value).subscribe({
+      next: (response) => {
+        this.recommendedCrop = response.crop;
+        switch (this.recommendedCrop) {
+          case 'Wheat':
+            this.cropImage = './assets/wheat.jpg';
+            break;
+          case 'rice':
+            this.cropImage = './assets/rice.jpg';
+            break;
+          case 'Barley':
+            this.cropImage = './assets/barley.jpg';
+            break;
+          case 'maize':
+            this.cropImage = './assets/maize.jpg';
+            break;
+          case 'Sugarcane':
+            this.cropImage = './assets/sugarcane.avif';
+            break;
+          case 'pigeonpeas':
+            this.cropImage = './assets/pigeonpeas.jpg';
+            break
+          case 'cotton':
+            this.cropImage = './assets/cotton.jpg';
+            break;
+          case 'banana':
+            this.cropImage = './assets/banana.jpg';
+            break;
+          case 'orange':
+            this.cropImage = './assets/orange.jpg';
+            break;
+          default:
+            this.cropImage = './assets/croprec.avif';
 
-      this.showConfetti = true;
-      setTimeout(() => this.showConfetti = false, 3000); // Hide confetti after 3 seconds
-    } catch (error) {
-      this.error = 'Error fetching recommendation. Please try again.';
-    } finally {
-      this.loading = false;
-    }
+        }
+      },
+      error: (error) => {
+        this.error = 'Error fetching recommendation. Please try again.';
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  
   }
 
   handleClear() {
@@ -74,6 +88,5 @@ export class CropRecommendationsComponent {
     this.recommendedCrop = '';
     this.error = '';
     this.cropImage = './assets/croprec.avif';
-    this.showConfetti = false;
   }
 }

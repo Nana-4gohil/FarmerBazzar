@@ -134,7 +134,7 @@ export class CropComponent {
   ];
   constructor(){
     this.crops.forEach(c => {
-      c.image = 'assets/cow2.jpg'
+      c.image = './assets/rice.jpg'
     });
   }
  

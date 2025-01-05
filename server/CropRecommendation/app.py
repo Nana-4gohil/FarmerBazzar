@@ -33,7 +33,7 @@ def predict_crop():
         prediction = model.predict(input_data)
         recommended_crop = le.inverse_transform(prediction)
 
-        return jsonify({'recommended_crop': recommended_crop[0]})
+        return jsonify({'crop': recommended_crop[0]})
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
