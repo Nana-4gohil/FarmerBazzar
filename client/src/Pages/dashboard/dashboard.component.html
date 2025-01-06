@@ -1,10 +1,8 @@
 <div class="dass">
 
 <app-sidebar [activeSection] = "activeSection" (sectionChange) = "handleSectionChange($event)"></app-sidebar>
-    <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
-    <!-- end: Sidebar -->
-
-    <!-- start: Main -->
+    <!-- <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div> -->
+   
     <main class="w-full md:w-[calc(100%-300px)] md:ml-60 min-h-screen transition-all main">
         @if(activeSection == 'cropInventory'){
             <app-crop ></app-crop>

@@ -34,6 +34,9 @@ export class DashboardComponent implements OnInit {
   showUserProfile = false;
   constructor(private router: Router) {}
   ngOnInit(): void {
+    if(localStorage.getItem('token') === null &&  localStorage.getItem('email') === null){
+      this.router.navigate(['/login']);
+    }
     setTimeout(() => {
       this.loading = false;
     }, 1000);

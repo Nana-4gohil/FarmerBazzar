@@ -84,9 +84,10 @@
               />
             </div>
             <div class="signup-error" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid">
-              Password must meet the criteria.
+              <p>
+                Password must be at least 8 characters long. Password must include at least one uppercase letter (A-Z).Password must include at least one lowercase letter (a-z).Password must include at least one numeric digit (0-9).Password must include at least one special character (!#$%^&*).
+              </p>
             </div>
-
             <input
               [type]="passwordVisible ? 'text' : 'password'"
               class="signup-input"

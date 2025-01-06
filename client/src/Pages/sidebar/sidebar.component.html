@@ -1,21 +1,11 @@
-<!-- 
-  <hr class="divider" />
+>
 
-  <div class="logout-container">
-
-    <button class="logout-button" (click)="logout()">
-      <fa-icon [icon]="faLogout" class="w-5"></fa-icon>
-      Logout
-    </button>
-  </div>
-</div> -->
-
-<div class="fixed left-0 top-0 w-67 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
-  <a href="#" class="flex items-center border-b border-b-gray-800">
+<div class="fixed left-0 top-0 w-67 h-full bg-gray-900 px-2 z-50 sidebar-menu transition-transform">
+  <!-- <a href="#" class="flex items-center border-b border-b-gray-800">
     <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover">
     <span class="text-lg font-bold text-white ml-3">Logo</span>
-  </a>
-  <ul class="mt-4 text-white">
+  </a> -->
+  <ul class="mt-2 text-white">
     <p class="p1">Home</p>
     <li [class.active] = "activeSection === 'dashboard'" (click)="handleSectionChange('dashboard')">
       <fa-icon [icon]="faTh" class="icon"></fa-icon>
@@ -47,5 +37,9 @@
       <fa-icon [icon]="faNewspaper" class="icon"></fa-icon>
       <span>News</span>
     </li>
+    <hr class="divider" />
+    <li  (click)="logout()">
+      <fa-icon [icon]="faLogout" class="icon"></fa-icon>
+      <span>Logout</span>
   </ul>
 </div>

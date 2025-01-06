@@ -51,8 +51,10 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       this.authService.Login(userData).subscribe({
         next: (res) => {
+          const {token} = res
+          localStorage.setItem('token', token);
           this.toast.success('Login successful');
-          this.router.navigate(['/dashboard'])
+          this.router.navigate(['/'])
         },
         error: (err) => {
            this.toast.danger(err.error.error || 'Internal Server Error..');
@@ -70,7 +72,7 @@ export class LoginComponent implements OnInit {
     try{
       var user = await this.authService.loginWithGoogle();
       localStorage.setItem('email', user?.email || '');
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/']);
     }catch(err){
       console.log(err);
     }

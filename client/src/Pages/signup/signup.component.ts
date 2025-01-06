@@ -49,17 +49,17 @@ export class SignupComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   
   phoneNumber = new FormControl('', [
-    // Validators.required,
-    // Validators.pattern(/^\d{10}$/),
+    Validators.required,
+    Validators.pattern(/^\d{10}$/),
   ]);
   state = new FormControl('', Validators.required);
   password = new FormControl('', [
-    // Validators.required,
-    // Validators.minLength(8),
-    // Validators.pattern(/(?=.*[A-Z])/),
-    // Validators.pattern(/(?=.*[a-z])/),
-    // Validators.pattern(/(?=.*\d)/),
-    // Validators.pattern(/(?=.*[!@#$%^&*])/),
+    Validators.required,
+    Validators.minLength(8),
+    Validators.pattern(/(?=.*[A-Z])/),
+    Validators.pattern(/(?=.*[a-z])/),
+    Validators.pattern(/(?=.*\d)/),
+    Validators.pattern(/(?=.*[!@#$%^&*])/),
   ]);
   confirmPassword = new FormControl('', Validators.required);
 
@@ -84,14 +84,14 @@ export class SignupComponent implements OnInit {
   }
 
   handleSignup() {
-    // if (this.signupForm.invalid) {
-    //   return;
-    // }
-    const { password, confirmPassword,email } = this.signupForm.value;
-    // if (password !== confirmPassword) {
-    //   this.confirmPassword.setErrors({ mismatch: true });
-    //   return;
-    // }
+    if (this.signupForm.invalid) {
+      return;
+    }
+    const { password, confirmPassword } = this.signupForm.value;
+    if (password !== confirmPassword) {
+      this.confirmPassword.setErrors({ mismatch: true });
+      return;
+    }
      
       // this.loading = true;
       const userData = this.signupForm.value;
