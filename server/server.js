@@ -7,14 +7,32 @@ import cors from 'cors'
 import firebase from 'firebase/compat/app'
 import { getAuth } from 'firebase/auth';
 
-const app = express()
-dotenv.config()
+import productRoute from './routes/productRoute.js'
+import fileUpload from 'express-fileupload';
+import { v2 as cloudinary} from 'cloudinary'
 
+const app = express()
+
+dotenv.config()
 const port = process.env.PORT ||  '3000'
+
+cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+    
+
+app.use(fileUpload({
+      useTempFiles: true,
+      tempFileDir: '/tmp/'
+  }));
+  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors())
+
 const firebaseconfig = {
       apiKey: "AIzaSyDpb2LZG4K9SwBtLcjPgUIVMgu9T-9Q3Ss",
       authDomain: "farmer-bazzar.firebaseapp.com",
@@ -26,8 +44,10 @@ const firebaseconfig = {
 };
 
 app.use("/api/v1/auth/",authRoute)
+app.use("/api/v1/product/",productRoute)
 app.use("/api/v1/crop/",predictRoute)
 const firebaseApp = firebase.initializeApp(firebaseconfig, 'ClientApp');
+
 export const auth = getAuth(firebaseApp);
 app.listen(port,()=>{
       console.log(`App is listening at port http://localhost:${port}`)
