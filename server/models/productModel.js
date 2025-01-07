@@ -61,5 +61,31 @@ const getAllProducts = async()=>{
        }
 }
 
+const getProductById = async (pid) => {
+    try {
+        const productCollection = admin.firestore().collection('products');
+      // Reference to the specific document in the 'products' collection
+         const productDocRef = productCollection.doc(pid);
+  
+      // Fetch the document
+       const productDoc = await productDocRef.get();
+  
+      // Check if the document exists
+      if (productDoc.exists) {
+        // Return the product data
+        return { success: true, data: productDoc.data() };
+      } else {
+        // Handle the case where the document does not exist
+        console.log(`No product found with ID: ${pid}`);
+        return { success: false, message: 'Product not found' };
+      }
+    } catch (err) {
+      // Log and return the error
+      console.log('Error fetching product:', err.message);
+      return { success: false, message: err.message };
+    }
+  };
+  
 
-export  {createProduct,getProductByCategory ,getAllProducts}
+
+export  {createProduct,getProductByCategory ,getAllProducts , getProductById}

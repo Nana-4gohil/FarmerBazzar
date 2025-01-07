@@ -1,4 +1,4 @@
-import { createProduct, getAllProducts,getProductByCategory} from '../models/productModel.js';
+import { createProduct, getAllProducts,getProductByCategory,getProductById} from '../models/productModel.js';
 import { v4 as uuidv4 } from 'uuid';
 import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv';
@@ -65,6 +65,13 @@ class ProductController {
     }
   }
 
+  static getProductById = async(req,res)=>{
+           const {pid} = req.params
+          const product = await getProductById(pid)
+           return res.status(200).json({
+               product
+           })
+  }
   static getAllproducts = async (req, res) => {
     const products = await getAllProducts();
     return res.status(200).json({ products });
