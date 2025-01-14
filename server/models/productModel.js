@@ -47,19 +47,28 @@ const getProductByCategory = async (category) => {
 };
 
 
-const getAllProducts = async()=>{
-       try{
-          const snapshot = await productCollection.get();
-          if(snapshot.empty){
-              return []
-          }
-          const products = snapshot.docs.map(doc=>doc.data())
-          return products
-       }catch(err){
-           console.log(err.message)
-           return [];
-       }
+const getAllProducts = async () => {
+  try {
+      const snapshot = await productCollection.get();
+      if (snapshot.empty) {
+          return [];
+      }
+
+      const products = snapshot.docs.map(doc => {
+          return {
+              productId: doc.id,  // Include the document ID as productId
+              ...doc.data()        // Spread the product data
+          };
+      });
+
+      console.log(products);
+      return products;
+  } catch (err) {
+      console.log(err.message);
+      return [];
+  }
 }
+
 
 const getProductById = async (pid) => {
     try {

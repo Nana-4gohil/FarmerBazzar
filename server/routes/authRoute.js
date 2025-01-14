@@ -10,6 +10,7 @@ router.post('/signup/verify-and-complete',authContrtoller.signup)
 router.post('/login',authContrtoller.login)
 router.get('/logout',authContrtoller.logout)
 router.get('/me',verifyToken,authContrtoller.getMe)
+router.get('/getAll',authContrtoller.getAllUsers)
 
 export default router
  

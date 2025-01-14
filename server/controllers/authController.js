@@ -1,5 +1,5 @@
 import admin from '../firebase.js';
-import { createUser, getUserByUID } from '../models/userModel.js';
+import { createUser, getUserByUID,getAllUsers } from '../models/userModel.js';
 import {getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import crypto from 'crypto'
 import sendMail from '../utils/mailer.js';
@@ -125,14 +125,14 @@ class authController {
       }
 
       // Generate a custom token for session management (optional)
-      const customToken = await admin.auth().createCustomToken(userCredential.user.uid);
-
+      const idToken = await userCredential.user.getIdToken(true);
+      console.log(idToken)
       return res.status(200).json({
         user,
-        token: customToken,
+        token: idToken,
       });
     } catch (error) {
-      // console.error("Login error:", error.message);
+      console.error("Login error:", error.message);
       return res.status(400).json({ error: "Invalid username or password" });
     }
   };
@@ -141,7 +141,6 @@ class authController {
   static logout = async (req, res) => {
     try {
       // Invalidate session on client side
-      res.clearCookie("jwt");
       await auth.signOut();
       return res.status(200).send({ message: "Successfully logged out" });
     } catch (error) {
@@ -171,6 +170,12 @@ class authController {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   };
+   
+  static getAllUsers = async (req,res)=>{
+    const users = await getAllUsers();
+    return res.status(200).json({ users });
+  }
+
 }
 
 export default authController;
