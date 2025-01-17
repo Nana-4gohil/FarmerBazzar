@@ -21,6 +21,7 @@ const userCollection = db.collection("users")
            }
       }
 
+      
       const getUserByUID = async (uid) => {
         try {
           const usersCollection = admin.firestore().collection('users'); // Make sure 'users' is your collection name
@@ -37,7 +38,28 @@ const userCollection = db.collection("users")
         }
       }
 
-export {createUser,getUserByUID}
+      const getAllUsers = async () => {
+        try {
+            const usersCollection = admin.firestore().collection('users'); // Make sure 'users' is your collection name
+            const snapshot = await usersCollection.get(); // Get all documents from 'users' collection
+    
+            if (snapshot.empty) {
+                return []; // No users found
+            }
+    
+            const users = snapshot.docs.map(doc => {
+                return { uid: doc.id, ...doc.data() }; // Include user ID and data
+            });
+  
+            return users;
+        } catch (error) {
+            console.error("Error fetching users:", error.message);
+            throw new Error('Failed to fetch users from Firestore');
+        }
+    }
+    
+
+export {createUser,getUserByUID,getAllUsers}
 
 
 

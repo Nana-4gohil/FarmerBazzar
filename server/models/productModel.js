@@ -68,6 +68,7 @@ const getAllProducts = async () => {
   }
 }
 
+
 const getProductById = async (pid) => {
     try {
         const productCollection = admin.firestore().collection('products');
