@@ -126,7 +126,6 @@ class authController {
 
       // Generate a custom token for session management (optional)
       const idToken = await userCredential.user.getIdToken(true);
-      console.log(idToken)
       return res.status(200).json({
         user,
         token: idToken,
@@ -153,7 +152,6 @@ class authController {
   static getMe = async (req, res) => {
     try {
       const uid = req.user?.uid; // Populated by middleware
-      console.log(uid)
       if (!uid) {
         return res.status(401).json({ error: "Unauthorized" });
       }

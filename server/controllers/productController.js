@@ -8,7 +8,7 @@ dotenv.config();
 class ProductController {
 
   static AddProduct = async (req, res) => {
-    const {
+    let {
       productName,
       productImage,
       productPrice,
@@ -16,31 +16,19 @@ class ProductController {
       productCategory,
       productQuantity,
       sellerAddress,
-      avilablefrom,
+      availableFrom,
     } = req.body;
 
     try {
-      // console.log(req.files)
-      console.log(req.body)
-      // console.log(req.header)
      
-
-      if (!productName || !productImage  || !productPrice || !productDescription || !productCategory || !productQuantity || !sellerAddress || !avilablefrom) {
-        return res.status(400).json({
-          message: 'All data are required',
-          success: false
-        });
-      }
-
       const Pid = uuidv4();
-
-      // console.log(productImage)
       if (productImage) {
         const uploadedRes = await cloudinary.uploader.upload(productImage)
         productImage = uploadedRes.secure_url
       }
-    // console.log(productImage)
-      // Upload the image to Cloudinary
+      
+
+   
      
         const productData = {
           pid: Pid,
@@ -51,14 +39,15 @@ class ProductController {
           productCategory,
           productQuantity,
           sellerAddress,
-          avilablefrom,
-          sellerId: req.user.uid,
+          availableFrom,
+          sellerId: req?.user?.uid,
+          createdAt: new Date().toISOString()
         };
 
         const createResult = await createProduct(productData);
 
         if (createResult.success) {
-          return res.status(201).json({ product: productData, success: true });
+          return res.status(201).json({ message : "Product is Created Successfully..", success: true });
         } else {
           return res.status(500).json({ error: "Error saving Product to Firestore", success: false });
         }

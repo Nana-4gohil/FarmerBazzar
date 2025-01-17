@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex justify-content-center align-items-center">
     <div class="card w-100" style="max-width: 600px;">
       <div class="card-header bg-success text-white">
         <h3>Sell Your Crop</h3>
@@ -26,14 +26,13 @@
               type="file" 
               id="productImage" 
               class="form-control" 
-              formControlName="productImage" 
               (change)="onFileChange($event)" 
               accept="image/*"
         
             />
-            <div *ngIf="sellCropForm.get('productImage')?.touched && sellCropForm.get('productImage')?.invalid" class="text-danger">
+            <!-- <div *ngIf="sellCropForm.get('productImage')?.touched && sellCropForm.get('productImage')?.invalid" class="text-danger">
               Crop Image is required.
-            </div>
+            </div> -->
           </div>
   
           <div class="mb-3">

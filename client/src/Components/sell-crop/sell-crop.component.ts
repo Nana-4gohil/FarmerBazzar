@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CropService } from '../../Services/crop.service';
+import { NgToastService } from 'ng-angular-popup';
 
 
 @Component({
@@ -15,21 +16,25 @@ import { CropService } from '../../Services/crop.service';
 
 export class SellCropComponent implements OnInit {
   sellCropForm!: FormGroup;
-  selectedImageFile!: File;
+  img: string | null = null;
+  constructor(private fb: FormBuilder,private cropService:CropService, private toast:NgToastService) {}
 
-  constructor(private fb: FormBuilder,private cropService:CropService) {}
   onFileChange(event: any): void {
-    const file = event?.target?.files[0];
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (file) {
-      this.selectedImageFile = file;
-     this.sellCropForm.patchValue({ productImage: file.name }); // Update form control
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.img = reader.result as string; // Set the image preview URL
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
 
   ngOnInit(): void {
+
     this.sellCropForm = this.fb.group({
       productName: ['', Validators.required],
-      productImage: ['', Validators.required],
       productPrice: [null, [Validators.required, Validators.min(1)]],
       productDescription: ['', Validators.required],
       productCategory: ['', Validators.required],
@@ -41,24 +46,23 @@ export class SellCropComponent implements OnInit {
 
   onSubmit(): void {
     if (this.sellCropForm.valid) {
-      // console.log('Crop details:', this.sellCropForm.value);
-      // alert('Crop sold successfully!');
-      this.cropService.AddCrop(this.sellCropForm.value).subscribe({
+    const data = {
+      productImage: this.img,
+      ...this.sellCropForm.value 
+    }
+      this.cropService.AddCrop(data).subscribe({
         next: (data) => {
-          console.log('Data:', data);
-          alert('Crop sold successfully!');
+          this.toast.success(data.message);
         },
         error: (error) => {
-          console.log('Error:', error);
+          this.toast.danger(error.error.message || 'Internal Server Error..');
         },
-        complete: () => {
-
-        }
+       
 
       });
-      // this.sellCropForm.reset(); // Reset the form
+      this.sellCropForm.reset()
     } else {
-      alert('Please fill in all the required fields correctly!');
+      this.toast.danger('Please fill all the fields');
     }
   }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faShoppingCart,faHeart,faStar } from '@fortawesome/free-solid-svg-icons';
+import { differenceInHours, differenceInMinutes } from 'date-fns';
 @Component({
   selector: 'app-crop-card',
   standalone: true,
@@ -11,32 +11,23 @@ import { faShoppingCart,faHeart,faStar } from '@fortawesome/free-solid-svg-icons
 })
 export class CropCardComponent {
   @Input() product: any;
-  totalData: number = 0; // Total number of products, should be fetched from API
-  fashop = faShoppingCart
-  faheart = faHeart
-  fastar = faStar
   constructor() {}
-
-  ngOnInit(): void {
-    // this.fetchProducts();
+  getTimeAgo(timestamp: string): string {
+    const inputTime = new Date(timestamp);
+    const diffInHours = differenceInHours(new Date(), inputTime);
+    const diffInMinutes = differenceInMinutes(new Date(), inputTime);
+    if (diffInHours < 1) {
+      if (diffInMinutes < 1) {
+        return 'Just now';
+      } else if (diffInMinutes === 1) {
+        return '1 minute ago';
+      } else {
+        return `${diffInMinutes} minutes ago`;
+      }
+    } else if (diffInHours === 1) {
+      return '1 hour ago';
+    } else {
+      return `${diffInHours} hours ago`;
+    }
   }
-
-  fetchProducts(): void {
-    // Fetch initial products from your service
-    // Example:
-    // this.dataService.getProducts().subscribe((response) => {
-    //   this.data = response.products;
-    //   this.totalData = response.totalData;
-    // });
-  }
-
-  addToCart(product: any): void {
-    // Handle add to cart logic here
-    console.log('Added to cart:', product);
-  }
-
-  // loadMore(): void {
-  //   // Handle load more functionality here
-  //   console.log('Load more products...');
-  // }
 }

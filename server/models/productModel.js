@@ -5,7 +5,7 @@ const productCollection =  db.collection("products")
 
 const createProduct = async(productdata)=>{
          try{
-        const {pid,productName,productImage,productPrice,productDescription,productCategory,productQuantity,sellerAddress,avilablefrom,sellerId} = productdata
+        const {pid,productName,productImage,productPrice,productDescription,productCategory,productQuantity,sellerAddress,availableFrom,sellerId,createdAt} = productdata
          await productCollection.doc(pid).set({
             productName,
             productImage,
@@ -14,8 +14,9 @@ const createProduct = async(productdata)=>{
             productCategory,
             productQuantity,
             sellerAddress,
-            avilablefrom,
-            sellerId
+            availableFrom,
+            sellerId,
+            createdAt
          })
          return {success:true}
          }

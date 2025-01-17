@@ -29,6 +29,8 @@ export class AuthService {
         prompt: 'select_account', // This forces the account selection prompt
       });
       const result = await signInWithPopup(this.auth, provider);
+
+      
       return result.user
     } catch (error) {
       console.error('Error during sign-in:', error);

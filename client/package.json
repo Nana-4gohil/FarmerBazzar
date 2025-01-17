@@ -25,6 +25,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
+    "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
     "ng-angular-popup": "^0.6.6",
     "rxjs": "~7.8.0",
