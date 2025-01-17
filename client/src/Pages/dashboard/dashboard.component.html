@@ -5,7 +5,8 @@
    
     <main class="w-full md:w-[calc(100%-300px)] md:ml-60 min-h-screen transition-all main">
         @if(activeSection == 'cropInventory'){
-            <app-crop ></app-crop>
+            <!-- <app-crop ></app-crop> -->
+             <app-sell-crop></app-sell-crop>
         }@else if(activeSection == 'croprecommendations'){
             <app-crop-recommendations></app-crop-recommendations>
         }@else if(activeSection == 'fertilizer'){

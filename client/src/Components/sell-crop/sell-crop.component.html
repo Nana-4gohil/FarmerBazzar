@@ -1,0 +1,125 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card w-100" style="max-width: 600px;">
+      <div class="card-header bg-success text-white">
+        <h3>Sell Your Crop</h3>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="sellCropForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  
+          <div class="mb-3">
+            <label for="productName" class="form-label">Crop Name</label>
+            <input 
+              type="text" 
+              id="productName" 
+              class="form-control" 
+              placeholder="Enter crop name" 
+              formControlName="productName" 
+            />
+            <div *ngIf="sellCropForm.get('productName')?.touched && sellCropForm.get('productName')?.invalid" class="text-danger">
+              Crop Name is required.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="productImage" class="form-label">Crop Image</label>
+            <input 
+              type="file" 
+              id="productImage" 
+              class="form-control" 
+              formControlName="productImage" 
+              (change)="onFileChange($event)" 
+              accept="image/*"
+        
+            />
+            <div *ngIf="sellCropForm.get('productImage')?.touched && sellCropForm.get('productImage')?.invalid" class="text-danger">
+              Crop Image is required.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="productPrice" class="form-label">Crop Price</label>
+            <input 
+              type="number" 
+              id="productPrice" 
+              class="form-control" 
+              placeholder="Enter crop price" 
+              formControlName="productPrice" 
+            />
+            <div *ngIf="sellCropForm.get('productPrice')?.touched && sellCropForm.get('productPrice')?.invalid" class="text-danger">
+              Crop Price is required and must be a positive number.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="productDescription" class="form-label">Crop Description</label>
+            <textarea 
+              id="productDescription" 
+              class="form-control" 
+              placeholder="Enter crop description" 
+              formControlName="productDescription">
+            </textarea>
+            <div *ngIf="sellCropForm.get('productDescription')?.touched && sellCropForm.get('productDescription')?.invalid" class="text-danger">
+              Crop Description is required.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="productCategory" class="form-label">Crop Category</label>
+            <input 
+              type="text" 
+              id="productCategory" 
+              class="form-control" 
+              placeholder="Enter crop category" 
+              formControlName="productCategory" 
+            />
+            <div *ngIf="sellCropForm.get('productCategory')?.touched && sellCropForm.get('productCategory')?.invalid" class="text-danger">
+              Crop Category is required.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="productQuantity" class="form-label">Crop Quantity</label>
+            <input 
+              type="number" 
+              id="productQuantity" 
+              class="form-control" 
+              placeholder="Enter crop quantity" 
+              formControlName="productQuantity" 
+            />
+            <div *ngIf="sellCropForm.get('productQuantity')?.touched && sellCropForm.get('productQuantity')?.invalid" class="text-danger">
+              Crop Quantity is required and must be a positive number.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="sellerAddress" class="form-label">Seller Address</label>
+            <textarea 
+              id="sellerAddress" 
+              class="form-control" 
+              placeholder="Enter seller address" 
+              formControlName="sellerAddress">
+            </textarea>
+            <div *ngIf="sellCropForm.get('sellerAddress')?.touched && sellCropForm.get('sellerAddress')?.invalid" class="text-danger">
+              Seller Address is required.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="availableFrom" class="form-label">Available From</label>
+            <input 
+              type="date" 
+              id="availableFrom" 
+              class="form-control" 
+              formControlName="availableFrom" 
+            />
+            <div *ngIf="sellCropForm.get('availableFrom')?.touched && sellCropForm.get('availableFrom')?.invalid" class="text-danger">
+              Available From is required.
+            </div>
+          </div>
+  
+          <button type="submit" class="btn btn-success" [disabled]="sellCropForm.invalid">Sell Crop</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

@@ -9,12 +9,14 @@
     <div class="card-body">
       <h5 class="card-text">
         <a [href]="product.id">
-          {{ product.name }}
+          {{ product?.productName }}
         </a>
       </h5>
       <h6>
         $ <span class="product-price-{{ product.id }}">
-          {{ product?.price }}
+          {{ product?.
+            productPrice
+             }}
         </span>
       </h6>
     </div>

@@ -1,0 +1,90 @@
+<div class="container mt-4">
+ 
+    <div class="row">
+      <div class="col-md-2">
+        <!-- Add filter options here -->
+    </div>
+      <!-- Left Section -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <!-- Product Image -->
+            <img src=[product?.productImage] class="img-fluid mb-3" alt="Product Image">
+            
+            <!-- Product Info -->
+            <h3>20 Kilo</h3>
+            <p class="text-success">Call For Price</p>
+            <p class="text-muted">
+              The given price is approximate, which may vary depending on the terms and conditions of the sale.
+            </p>
+            <ul class="list-unstyled">
+              <li><strong>Quantity:</strong>{{product?.productPrice}}</li>
+              <li><strong>Available From:</strong>{{product?.avilablefrom}}</li>
+
+              <li>
+                <strong>Location:</strong> {{product?.sellerAddress
+                }}
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Description -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4>Description</h4>
+            <p>Shetkari</p>
+          </div>
+        </div>
+  
+        <!-- Reviews -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4>Reviews</h4>
+            <p>No reviews yet</p>
+            <button class="btn btn-primary">Write a product review</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Right Section -->
+      <div class="col-lg-3">
+        <!-- Contact and Map -->
+        <div class="card">
+          <div class="card-body text-center">
+            <h5>Boos Raj 2m</h5>
+            <p>Post Date: 12 hours ago</p>
+            <button class="btn btn-success mb-3">Call</button>
+            <div>
+              <button class="btn btn-outline-secondary">Add to Favorite</button>
+              <button class="btn btn-outline-secondary">Share Post</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Map -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <h6>Location</h6>
+            <div id="map" style="height: 200px; background: #eaeaea;">Google Map</div>
+          </div>
+        </div>
+  
+        <!-- Related Categories -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <h6>Related Category</h6>
+            <ul class="list-unstyled">
+              <li><a href="#">Potato</a></li>
+              <li><a href="#">Onion</a></li>
+              <li><a href="#">Tomatoes</a></li>
+              <li><a href="#">Brinjal</a></li>
+              <li><a href="#">Cabbage</a></li>
+              <!-- Add more items as needed -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

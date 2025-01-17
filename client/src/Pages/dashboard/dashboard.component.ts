@@ -11,6 +11,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TempChartComponent } from '../temp-chart/temp-chart.component';
 import { CropComponent } from '../../Components/crop/crop.component';
 import { CropRecommendationsComponent } from '../../Predict/crop-recommendations/crop-recommendations.component';
+import { SellCropComponent } from '../../Components/sell-crop/sell-crop.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -19,6 +20,7 @@ import { CropRecommendationsComponent } from '../../Predict/crop-recommendations
     TempChartComponent,
     CropComponent,
     CropRecommendationsComponent,
+    SellCropComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

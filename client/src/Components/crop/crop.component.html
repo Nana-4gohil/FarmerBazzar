@@ -10,9 +10,11 @@
                 Products
             </h3>
             <div class="row">
-                @for(crop of crops ; track crop.id){
+                @for(crop of products ; track crop.productId){
                     
-                    <app-crop-card [product]="crop"></app-crop-card>
+                    <a [routerLink]="['/crops', crop.productId]">
+                        <app-crop-card [product]="crop"></app-crop-card>
+                     </a>
                       
                 }
             </div>

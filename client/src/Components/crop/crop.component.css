@@ -3,13 +3,14 @@
     flex-wrap: wrap;            /* Allows items to wrap onto the next row */
   }
   
-  app-crop-card {
+  a {
     flex: 1 1 25%;              /* Each product takes 25% width (4 per row) */
     max-width: 25%;             /* Ensures maximum width is also 25% */
     box-sizing: border-box;     /* Ensures padding/border doesn’t affect width */
     margin: 0;                  /* Removes any default margins */
     padding: 0;                /* Removes any default padding */
   }
+
   
   
   @media (max-width: 768px) {

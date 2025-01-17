@@ -44,8 +44,8 @@ const firebaseconfig = {
 };
 
 app.use("/api/v1/auth/",authRoute)
-app.use("/api/v1/product/",productRoute)
-app.use("/api/v1/crop/",predictRoute)
+app.use("/api/v1/crop/",productRoute)
+app.use("/api/v1/predict/",predictRoute)
 const firebaseApp = firebase.initializeApp(firebaseconfig, 'ClientApp');
 
 export const auth = getAuth(firebaseApp);

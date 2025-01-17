@@ -20,11 +20,12 @@ class ProductController {
     } = req.body;
 
     try {
-      console.log(req.files)
+      // console.log(req.files)
       console.log(req.body)
-      console.log(req.header)
+      // console.log(req.header)
+     
 
-      if (!productName || !productImage || !req.files.productImage || !productPrice || !productDescription || !productCategory || !productQuantity || !sellerAddress || !avilablefrom) {
+      if (!productName || !productImage  || !productPrice || !productDescription || !productCategory || !productQuantity || !sellerAddress || !avilablefrom) {
         return res.status(400).json({
           message: 'All data are required',
           success: false
@@ -33,10 +34,12 @@ class ProductController {
 
       const Pid = uuidv4();
 
+      // console.log(productImage)
       if (productImage) {
         const uploadedRes = await cloudinary.uploader.upload(productImage)
         productImage = uploadedRes.secure_url
-    }
+      }
+    // console.log(productImage)
       // Upload the image to Cloudinary
      
         const productData = {

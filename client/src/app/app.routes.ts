@@ -3,6 +3,8 @@ import { LoginComponent } from '../Pages/login/login.component';
 import { SignupComponent } from '../Pages/signup/signup.component';
 import { DashboardComponent } from '../Pages/dashboard/dashboard.component';
 import { CropComponent } from '../Components/crop/crop.component';
+import { ProductDetailsComponent } from '../Components/product-details/product-details.component';
+import { SellCropComponent } from '../Components/sell-crop/sell-crop.component';
 
 
 export const routes: Routes = [
@@ -21,6 +23,14 @@ export const routes: Routes = [
     {
         path:'dashboard',
         component:DashboardComponent
+    },
+    {
+        path:'crops/:id',
+        component:ProductDetailsComponent
+    },
+    {
+        path:'crop/sell',
+        component:SellCropComponent
     }
 
 ];

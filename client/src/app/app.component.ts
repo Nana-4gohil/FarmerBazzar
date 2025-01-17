@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from '../Pages/login/login.component';
-import { SignupComponent } from '../Pages/signup/signup.component';
-import { DashboardComponent } from '../Pages/dashboard/dashboard.component';
 import {NgToastModule , ToasterPosition} from 'ng-angular-popup';
+import { NavbarComponent } from '../utils/navbar/navbar.component';
 
 //  ToasterPosition {
 //   TOP_LEFT = 'toaster-top-left',
@@ -16,13 +14,13 @@ import {NgToastModule , ToasterPosition} from 'ng-angular-popup';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,LoginComponent, SignupComponent ,DashboardComponent,NgToastModule],
+  imports: [RouterOutlet,NgToastModule,NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 
 export class AppComponent {
-  title = 'client';
+  title = 'FirmarBarzzar';
   TOP_RIGHT = ToasterPosition.TOP_RIGHT
    
 }
