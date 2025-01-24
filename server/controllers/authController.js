@@ -75,12 +75,7 @@ class authController {
       if (!otpVerification.success) {
         return res.status(400).json({ error: otpVerification.error });
       }
-      // Check if email is already taken
-      // const existingUser = await admin.auth().getUserByEmail(email).catch(() => null);
-      // if (existingUser) {
-      //   return res.status(400).json({ error: "Email is already taken", success: false });
-      // }
-      // Create user in Firebase Authentication
+    
       const firebaseUser = await admin.auth().createUser({
         email,
         password,
@@ -111,7 +106,7 @@ class authController {
 
   static login = async (req, res) => {
     try {
-      const { email, password } = req.body;;
+      const { email, password } = req.body
       const userCredential = await signInWithEmailAndPassword(auth,email, password);
       if (!userCredential) {
         return res.status(400).json({ error: "Invalid username or password" });
