@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter,OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter,OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCloud, faNewspaper, faWarehouse, faSeedling, faFlask, faStore ,

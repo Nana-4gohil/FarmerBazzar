@@ -5,32 +5,35 @@ import { DashboardComponent } from '../Pages/dashboard/dashboard.component';
 import { CropComponent } from '../Components/crop/crop.component';
 import { ProductDetailsComponent } from '../Components/product-details/product-details.component';
 import { SellCropComponent } from '../Components/sell-crop/sell-crop.component';
+import { SearchComponent } from '../Components/search/search.component';
 
 
 export const routes: Routes = [
     {
-        path:'',
-        component:CropComponent
+        path: '',
+        component: CropComponent
     },
     {
-        path:'login',
-        component:LoginComponent
+        path: 'login',
+        component: LoginComponent
     },
     {
-        path:'signup',
-        component:SignupComponent
+        path: 'signup',
+        component: SignupComponent
     },
     {
-        path:'dashboard',
-        component:DashboardComponent
+        path: 'dashboard',
+        component: DashboardComponent
     },
     {
-        path:'crops/:id',
-        component:ProductDetailsComponent
+        path: 'crops/:id',
+        component: ProductDetailsComponent
     },
     {
-        path:'crop/sell',
-        component:SellCropComponent
-    }
+        path: 'crop/sell',
+        component: SellCropComponent
+    },
+    { path: 'search', component: SearchComponent },
+
 
 ];

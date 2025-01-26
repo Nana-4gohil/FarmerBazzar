@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInYears } from 'date-fns';
 @Component({
   selector: 'app-crop-card',
   standalone: true,
@@ -12,22 +12,35 @@ import { differenceInHours, differenceInMinutes } from 'date-fns';
 export class CropCardComponent {
   @Input() product: any;
   constructor() {}
-  getTimeAgo(timestamp: string): string {
+   getTimeAgo(timestamp: string): string {
     const inputTime = new Date(timestamp);
-    const diffInHours = differenceInHours(new Date(), inputTime);
-    const diffInMinutes = differenceInMinutes(new Date(), inputTime);
-    if (diffInHours < 1) {
-      if (diffInMinutes < 1) {
-        return 'Just now';
-      } else if (diffInMinutes === 1) {
-        return '1 minute ago';
-      } else {
-        return `${diffInMinutes} minutes ago`;
-      }
-    } else if (diffInHours === 1) {
-      return '1 hour ago';
-    } else {
-      return `${diffInHours} hours ago`;
+    const now = new Date();
+  
+    const diffInYears = differenceInYears(now, inputTime);
+    if (diffInYears >= 1) {
+      return diffInYears === 1 ? '1 year ago' : `${diffInYears} years ago`;
     }
+  
+    const diffInMonths = differenceInMonths(now, inputTime);
+    if (diffInMonths >= 1) {
+      return diffInMonths === 1 ? '1 month ago' : `${diffInMonths} months ago`;
+    }
+  
+    const diffInDays = differenceInDays(now, inputTime);
+    if (diffInDays >= 1) {
+      return diffInDays === 1 ? '1 day ago' : `${diffInDays} days ago`;
+    }
+  
+    const diffInHours = differenceInHours(now, inputTime);
+    if (diffInHours >= 1) {
+      return diffInHours === 1 ? '1 hour ago' : `${diffInHours} hours ago`;
+    }
+  
+    const diffInMinutes = differenceInMinutes(now, inputTime);
+    if (diffInMinutes >= 1) {
+      return diffInMinutes === 1 ? '1 minute ago' : `${diffInMinutes} minutes ago`;
+    }
+  
+    return 'Just now';
   }
 }

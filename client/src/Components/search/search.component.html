@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h1>Search Results for {{ query }}</h1>
+  @if(loading){
+    <div class="spinner">
+      <app-pulse-loader [loading]="loading" [color]="'#1b591c'" [size]="20"></app-pulse-loader>
+    </div>
+}@else{
+  @if(products.length > 0){
+
+    <div class="row">
+      <div class="col-md-2">
+        <!-- Add filter options here -->
+    </div>
+              @for(crop of products ; track crop.productId){
+                  
+                  <a [routerLink]="['/crops', crop.productId]">
+                      <app-crop-card [product]="crop"></app-crop-card>
+                   </a>
+                    
+              }
+  </div>
+  }@else{
+     <p>No results found for {{ query }}.</p>
+  }
+}
+</div>

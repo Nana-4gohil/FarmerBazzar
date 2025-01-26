@@ -1,4 +1,10 @@
+  <app-carousel></app-carousel>
 <main class="container my-4">
+    @if(loading){
+        <div class="spinner">
+          <app-pulse-loader [loading]="loading" [color]="'#1b591c'" [size]="20"></app-pulse-loader>
+        </div>
+    }@else{
     <div class="row">
         <!-- Filters -->
         <div class="col-md-2">
@@ -21,4 +27,5 @@
                 
         </div>
     </div>
+    }
 </main>

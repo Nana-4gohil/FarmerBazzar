@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
   async handleLogin(): Promise<void> {
     if (this.loginForm.valid) {
       const userData = this.loginForm.value;
+      console.log(userData)
       this.loading = true;
       this.authService.Login(userData).subscribe({
         next: (res) => {

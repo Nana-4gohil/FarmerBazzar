@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {NgToastModule , ToasterPosition} from 'ng-angular-popup';
 import { NavbarComponent } from '../utils/navbar/navbar.component';
+import { FooterComponent } from '../utils/footer/footer.component';
+import { CarouselComponent } from '../utils/carousel/carousel.component';
 
 //  ToasterPosition {
 //   TOP_LEFT = 'toaster-top-left',
@@ -14,7 +16,7 @@ import { NavbarComponent } from '../utils/navbar/navbar.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NgToastModule,NavbarComponent],
+  imports: [RouterOutlet,NgToastModule,NavbarComponent,FooterComponent,CarouselComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -22,5 +24,15 @@ import { NavbarComponent } from '../utils/navbar/navbar.component';
 export class AppComponent {
   title = 'FirmarBarzzar';
   TOP_RIGHT = ToasterPosition.TOP_RIGHT
+  showNavbarFooter = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const hiddenRoutes = ['/login', '/dashboard']; // Add routes where navbar/footer should be hidden
+        this.showNavbarFooter = !hiddenRoutes.includes(event.url);
+      }
+    });
+  }
    
 }
