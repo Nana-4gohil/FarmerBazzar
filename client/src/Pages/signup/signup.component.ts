@@ -14,6 +14,7 @@ import { AuthService } from '../../Services/auth.service';
 import { MatDialog  } from '@angular/material/dialog';
 import { VerifyEmailPopupComponent } from '../../utils/verify-email-popup/verify-email-popup.component';
 
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -22,6 +23,7 @@ import { VerifyEmailPopupComponent } from '../../utils/verify-email-popup/verify
    styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
+
   constructor(private router: Router,private authService: AuthService,
     private dialog: MatDialog
   ){}
@@ -99,6 +101,6 @@ export class SignupComponent implements OnInit {
         width: '400px',
         data:{userData} // Pass email to popup
       });
-      
+
   }
 }

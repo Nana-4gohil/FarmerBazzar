@@ -9,6 +9,7 @@ import { getAuth } from 'firebase/auth';
 
 import productRoute from './routes/productRoute.js'
 import notificationRoute from './routes/notificationRoute.js'
+import queryRoute from './routes/queryRoute.js'
 import fileUpload from 'express-fileupload';
 import { v2 as cloudinary} from 'cloudinary'
 
@@ -42,6 +43,7 @@ app.use("/api/v1/auth/",authRoute)
 app.use("/api/v1/predict/",predictRoute)
 app.use("/api/v1/crop/",productRoute)
 app.use("/api/v1/notification/",notificationRoute)
+app.use('/api/v1/',queryRoute)
 const firebaseApp = firebase.initializeApp(firebaseconfig, 'ClientApp');
 
 export const auth = getAuth(firebaseApp);
