@@ -25,11 +25,10 @@ export class VerifyEmailPopupComponent implements OnInit {
   user: any;
   ngOnInit(): void {
       this.user = this.data.userData
-      
+      this.showModal = true
       this.authService.RequestOTP(this.user.email).subscribe({
         next: (res) => {
           this.toast.success(res.message)
-          this.showModal = true
         },
         error: (err) => {
           this.showModal = false;

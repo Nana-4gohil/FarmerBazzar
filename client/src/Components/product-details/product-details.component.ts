@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CropService } from '../../Services/crop.service';
 import { CommonModule } from '@angular/common';
 
@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class ProductDetailsComponent {
+  constructor(private route: ActivatedRoute, private cropService: CropService, private router: Router) {
+  }
   product: any;
   data: any;
   showReviewModal = false; 
@@ -28,15 +30,16 @@ export class ProductDetailsComponent {
     rating: null as number | null,
   };
   openReviewModal() {
+    if(!this.isAuthenticated) {
+      this.router.navigate(['/login']);
+    }
     this.showReviewModal = true;
   }
 
   closeReviewModal() {
     this.showReviewModal = false;
   }
-  
-  constructor(private route: ActivatedRoute, private cropService: CropService) {
-  }
+
  
   ngOnInit(): void {
     if (localStorage.getItem('token') !== null) {

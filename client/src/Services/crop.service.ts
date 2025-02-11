@@ -6,10 +6,11 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class CropService {
-
-  constructor(private http:HttpClient) { }
-   url:string = 'http://localhost:8080/api/v1/crop'
-   token = localStorage.getItem('token');
+  token: any;
+  url:string = 'http://localhost:8080/api/v1/crop'
+  constructor(private http:HttpClient) {
+    this.token = localStorage.getItem('token');
+   }
    getAllCrops(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Include the token in the Authorization header

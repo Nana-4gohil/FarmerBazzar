@@ -2,7 +2,7 @@ import admin from '../firebase.js';
 
 const verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-    //  console.log(req.headers)
+    
     if (!authHeader) {
         return res.status(401).json({ error: 'No token provided or invalid format' });
     }

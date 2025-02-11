@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
   async handleLogin(): Promise<void> {
     if (this.loginForm.valid) {
       const userData = this.loginForm.value;
-      console.log(userData)
       this.loading = true;
       this.authService.Login(userData).subscribe({
         next: (res) => {
