@@ -74,9 +74,17 @@ export class LoginComponent implements OnInit {
       var user = await this.authService.loginWithGoogle();
     const idToken = await user.getIdToken();
       localStorage.setItem('token', idToken);
-      this.router.navigate(['/']);
-    }catch(err){
+      await this.router.navigate(['/']);
+    }catch(err:any){
       console.log(err);
+       // Handle specific errors with user-friendly messages
+       if (err.code === 'auth/popup-closed-by-user') {
+        console.warn('Sign-In was canceled by the user.');
+      } else if (err.code === 'auth/network-request-failed') {
+        alert('Network error. Please check your connection and try again.');
+      } else {
+        console.error('Unhandled error during sign-in:', err);
+      }
     }
 
   }
