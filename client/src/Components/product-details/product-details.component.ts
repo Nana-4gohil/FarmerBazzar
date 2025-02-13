@@ -4,11 +4,16 @@ import { CropService } from '../../Services/crop.service';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
+import { CropCardComponent } from '../crop-card/crop-card.component';
+import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
+import { MapComponent } from '../../utils/map/map.component';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterLink],
+  imports: [CommonModule, FormsModule,RouterLink,CropCardComponent,PulseLoaderComponent,
+  MapComponent
+  ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
@@ -20,9 +25,10 @@ export class ProductDetailsComponent {
   data: any;
   showReviewModal = false; 
   @Input() avgReviews: any;
+  loading: boolean = false;
   reviews: any;
   canAdd: boolean = true;
- related: any[] = [];
+  related: any[] = [];
   isAuthenticated = false;
   ratings = [1, 2, 3, 4, 5]; // Rating options
   reviewForm = {
@@ -61,7 +67,7 @@ export class ProductDetailsComponent {
   });
 }
   fetchProductById(id: any): void {
-    // this.loading = true;
+    this.loading = true;
     this.cropService.getCropById(id).subscribe({
       next: (res) => {
         const { product } = res;
@@ -76,6 +82,10 @@ export class ProductDetailsComponent {
       },
       error: (err) => {
         //  this.toast.danger(err.error.error);
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       },
     });
   }

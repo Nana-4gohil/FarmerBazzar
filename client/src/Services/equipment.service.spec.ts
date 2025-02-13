@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AiQueryService } from './ai-query.service';
+import { EquipmentService } from './equipment.service';
 
-describe('AiQueryService', () => {
-  let service: AiQueryService;
+describe('EquipmentService', () => {
+  let service: EquipmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AiQueryService);
+    service = TestBed.inject(EquipmentService);
   });
 
   it('should be created', () => {

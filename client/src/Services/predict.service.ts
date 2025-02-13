@@ -16,4 +16,7 @@ export class PredictService {
   getNews():Observable<any>{
     return this.http.get(this.apiUrl)
   }
+  getAiResponse(userQuery: string): Observable<any> {
+    return this.http.post<any>(`${this.url}/query`, { userQuery });
+  }
 }

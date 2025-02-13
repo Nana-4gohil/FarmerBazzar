@@ -32,6 +32,7 @@ export class CropComponent implements OnInit{
       },
       error: (err) => {
       //  this.toast.danger(err.error.error);
+      this.loading = false;
       
       },
       complete: () => {

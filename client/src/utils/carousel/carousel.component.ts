@@ -10,8 +10,11 @@ import { Component, Input } from '@angular/core';
 })
 export class CarouselComponent {
   banners = [
-    { img: 'assets/banana.jpg' },
-    { img: 'assets/cotton.jpg' },
+    { img: 'assets/banners/banner1.webp' },
+    { img: 'assets/banners/banner2.webp' },
+    { img: 'assets/banners/banner3.webp' },
+    { img: 'assets/banners/banner4.webp' },
+    { img: 'assets/banners/banner5.webp' },
   ];
   currentIndex: number = 0;
 

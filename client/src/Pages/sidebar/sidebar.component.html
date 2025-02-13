@@ -1,45 +1,50 @@
->
-
 <div class="fixed left-0 top-0 w-67 h-full bg-gray-900 px-2 z-50 sidebar-menu transition-transform">
-  <!-- <a href="#" class="flex items-center border-b border-b-gray-800">
-    <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover">
-    <span class="text-lg font-bold text-white ml-3">Logo</span>
-  </a> -->
+  <a class="navbar-brand fw-bold text-white p-2" [routerLink]="['/']">Home</a>
   <ul class="mt-2 text-white">
-    <p class="p1">Home</p>
-    <li [class.active] = "activeSection === 'dashboard'" (click)="handleSectionChange('dashboard')">
-      <fa-icon [icon]="faTh" class="icon"></fa-icon>
+  
+    <li [class.active]="activeSection === 'dashboard'" (click)="handleSectionChange('dashboard')">
+      <i class="bi bi-grid icon"></i>
       <span>Dashboard</span>
     </li>
+
     <p class="p2">Services</p>
-   <hr class="divider" />
+    <hr class="divider" />
+
     <li [class.active]="activeSection === 'climate'" (click)="handleSectionChange('climate')">
-      <fa-icon [icon]="faCloud" class="icon"></fa-icon>
+      <i class="bi bi-cloud icon"></i>
       <span>Climate</span>
     </li>
-    <li [class.active]="activeSection === 'cropInventory'" (click)="handleSectionChange('cropInventory')">
-      <fa-icon [icon]="faWarehouse" class="icon"></fa-icon>
-      <span>Crop Inventory</span>
-    </li>
+
     <li [class.active]="activeSection === 'croprecommendations'" (click)="handleSectionChange('croprecommendations')">
-      <fa-icon [icon]="faSeedling" class="icon"></fa-icon>
+      <i class="bi bi-tree icon"></i>
       <span>Crop Recommendations</span>
     </li>
+
     <li [class.active]="activeSection === 'fertilizer'" (click)="handleSectionChange('fertilizer')">
-      <fa-icon [icon]="faFlask" class="icon"></fa-icon>
+      <i class="bi bi-tree icon"></i>
       <span>Fertilizer Recommendations</span>
     </li>
+
     <li [class.active]="activeSection === 'market'" (click)="handleSectionChange('market')">
-      <fa-icon [icon]="faStore" class="icon"></fa-icon>
+      <i class="bi bi-shop icon"></i>
       <span>Market</span>
     </li>
+
     <li [class.active]="activeSection === 'news'" (click)="handleSectionChange('news')">
-      <fa-icon [icon]="faNewspaper" class="icon"></fa-icon>
+      <i class="bi bi-newspaper icon"></i>
       <span>News</span>
     </li>
+
+    <li [class.active]="activeSection === 'AddEquipment'" (click)="handleSectionChange('AddEquipment')">
+      <i class="bi bi-tools icon"></i>
+      <span>Add Equipment</span>
+    </li>
+
     <hr class="divider" />
-    <li  (click)="logout()">
-      <fa-icon [icon]="faLogout" class="icon"></fa-icon>
+    
+    <li (click)="logout()">
+      <i class="bi bi-box-arrow-right icon"></i>
       <span>Logout</span>
+    </li>
   </ul>
 </div>

@@ -1,15 +1,17 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CropService } from '../../Services/crop.service';
 import { NgToastService } from 'ng-angular-popup';
+import { MapComponent } from '../../utils/map/map.component';
+import { EquipmentService } from '../../Services/equipment.service';
 
 
 @Component({
   selector: 'app-sell-crop',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,MapComponent],
   templateUrl: './sell-crop.component.html',
   styleUrl: './sell-crop.component.css'
 })
@@ -17,7 +19,11 @@ import { NgToastService } from 'ng-angular-popup';
 export class SellCropComponent implements OnInit {
   sellCropForm!: FormGroup;
   img: string | null = null;
-  constructor(private fb: FormBuilder,private cropService:CropService, private toast:NgToastService) {}
+  latitude = 22.3072; // Default: Gujarat
+  longitude = 73.1812;
+  constructor(private fb: FormBuilder,private cropService:CropService, private toast:NgToastService,
+    private equipmentService:EquipmentService
+  ) {}
 
   onFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
@@ -31,16 +37,21 @@ export class SellCropComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    
+    this.getUserLocation()
     this.sellCropForm = this.fb.group({
       productName: ['', Validators.required],
       productPrice: [null, [Validators.required, Validators.min(1)]],
       productDescription: ['', Validators.required],
       productCategory: ['', Validators.required],
       productQuantity: [null, [Validators.required, Validators.min(1)]],
+      quantityUnit: ['kg', Validators.required],
       sellerAddress: ['', Validators.required],
-      availableFrom: ['', Validators.required]
+      availableFrom: ['', Validators.required],
+      sellerLatitude: [''],
+      sellerLongitude: [''],
     });
   }
 
@@ -64,6 +75,36 @@ export class SellCropComponent implements OnInit {
     } else {
       this.toast.danger('Please fill all the fields');
     }
+  }
+  getAddressFromCoordinates(): void {
+    this.equipmentService.getVillageFromCoordinates(this.latitude, this.longitude).subscribe({
+      next: (response) => {
+        // console.log('Village:', response.address.village);
+        // this.sellCropForm.patchValue({sellerAddress:response.address});
+      },
+      error: (error) => console.error('Error getting village:', error)
+    });
+  }
+  getUserLocation():void{
+    this.equipmentService.getCurrentLocation().subscribe({
+      next: (res)=>{
+        this.latitude = res.latitude
+        this.longitude = res.longitude
+
+      },
+      error:(err)=>{
+
+      },
+      complete:()=>{
+
+      }
+    })
+  }
+  updateLocation(event:any):void {
+    this.latitude = event.lat;
+    this.longitude =event.lng;
+    this.getAddressFromCoordinates()
+    this.sellCropForm.patchValue({ sellerLatitude: event.lat, sellerLongitude: event.lng });
   }
 }
 

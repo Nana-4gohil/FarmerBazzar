@@ -1,5 +1,5 @@
 <!-- carousel.component.html -->
-<div  class="carousel slide">
+<div  class="carousel slide p-2 ">
     <ol class="carousel-indicators">
       <li
         *ngFor="let banner of banners; let i = index"
@@ -7,7 +7,7 @@
         [class.active]="isActive(i)"
       ></li>
     </ol>
-    <div class="carousel-inner">
+    <div class="carousel-inner rounded-4">
       <div
         *ngFor="let banner of banners; let i = index"
         class="carousel-item"

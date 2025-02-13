@@ -1,1 +1,32 @@
-<p>nearby-equipment works!</p>
+<div class="container my-4">
+    <h2 class="text-center mb-4">Nearby Farming Equipment</h2>
+    <div class="row">
+    
+     <!-- Map Section -->
+      <div class="col-md-10">
+            <div id="map" style="height: 700px; border-radius: 10px;"></div>   
+      </div>
+      <div class="col-md-2">
+        <app-filters  (filterChange)="applyFilters($event)"></app-filters>
+      </div>
+
+    </div>
+    <ng-template #bookingModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Book Equipment</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group">
+          <label for="date" class="form-label">Select Date:</label>
+          <input type="date" class="form-control" [(ngModel)]="booking.date" name="date">
+    
+          <label for="duration" class="form-label">Duration (days):</label>
+          <input type="number" class="form-control" [(ngModel)]="booking.duration" name="duration" min="1">
+    
+          <button type="button" class="btn btn-success mt-3" (click)="confirmBooking(); modal.close()">Confirm Booking</button>
+        </form>
+      </div>
+    </ng-template>
+  </div>
+  

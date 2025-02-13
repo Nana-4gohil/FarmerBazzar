@@ -1,31 +1,24 @@
-  <app-carousel></app-carousel>
+<app-carousel></app-carousel>
 <main class="container my-4">
-    @if(loading){
-        <div class="spinner">
-          <app-pulse-loader [loading]="loading" [color]="'#1b591c'" [size]="20"></app-pulse-loader>
-        </div>
-    }@else{
     <div class="row">
-        <!-- Filters -->
-        <div class="col-md-2">
-            <!-- Add filter options here -->
-        </div>
-        <div class="col-md-9 ">
-            <!-- Products -->
-            <h3 class="mb-4 border-bottom pb-1">
+            <h3 class="mb-4 border-bottom p-1">
                 Products
             </h3>
+            @if(loading){
+            <div class="spinner">
+                <app-pulse-loader [loading]="loading" [color]="'#1b591c'" [size]="20"></app-pulse-loader>
+            </div>
+            }@else{
             <div class="row">
                 @for(crop of products ; track crop.productId){
-                    
-                    <a [routerLink]="['/crops', crop.productId]">
-                        <app-crop-card [product]="crop"></app-crop-card>
-                     </a>
-                      
+
+                <div class="col-lg-3 col-sm-4 mb-4 cursor-pointer" [routerLink]="['/crops', crop.productId]">
+                    <app-crop-card [product]="crop"></app-crop-card>
+                </div>
+
                 }
             </div>
-                
+            }
+
         </div>
-    </div>
-    }
 </main>

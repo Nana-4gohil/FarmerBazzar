@@ -4,10 +4,7 @@
     <!-- <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div> -->
    
     <main class="w-full md:w-[calc(100%-300px)] md:ml-60 min-h-screen transition-all main">
-        @if(activeSection == 'cropInventory'){
-            <!-- <app-crop ></app-crop> -->
-             <app-sell-crop></app-sell-crop>
-        }@else if(activeSection == 'croprecommendations'){
+       @if(activeSection == 'croprecommendations'){
             <app-crop-recommendations></app-crop-recommendations>
         }@else if(activeSection == 'fertilizer'){
             <!-- <app-fertilizer ></app-fertilizer> -->
@@ -15,6 +12,8 @@
             <!-- <app-market ></app-market> -->
         }@else if(activeSection == 'news'){
             <app-news ></app-news>
+        }@else if(activeSection == 'AddEquipment'){
+            <app-add-equipment></app-add-equipment>
         }
     </main>
 

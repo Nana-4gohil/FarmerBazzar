@@ -13,6 +13,7 @@ import { CropComponent } from '../../Components/crop/crop.component';
 import { CropRecommendationsComponent } from '../../Predict/crop-recommendations/crop-recommendations.component';
 import { SellCropComponent } from '../../Components/sell-crop/sell-crop.component';
 import { NewsComponent } from '../news/news.component';
+import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipment.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -22,7 +23,8 @@ import { NewsComponent } from '../news/news.component';
     CropComponent,
     CropRecommendationsComponent,
     SellCropComponent,
-    NewsComponent
+    NewsComponent,
+    AddEquipmentComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

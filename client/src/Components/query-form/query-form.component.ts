@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
-import {AiQueryService} from '../../Services/ai-query.service'
+import { PredictService } from '../../Services/predict.service';
 
 @Component({
   selector: 'app-query-form',
   standalone: true,
-  imports: [FormsModule, HttpClientModule, MarkdownModule,CommonModule],
+  imports: [FormsModule, MarkdownModule,CommonModule],
   templateUrl: './query-form.component.html',
   styleUrl: './query-form.component.css'
 })
@@ -18,7 +18,7 @@ export class QueryFormComponent {
   chatHistory: { query: string; response: string }[] = [];
   isLoading: boolean = false;
 
-  constructor(private aiQueryService: AiQueryService) {}
+  constructor(private predictService:PredictService) {}
 
   ngOnInit() {
     const savedHistory = localStorage.getItem('chatHistory');
@@ -41,7 +41,7 @@ export class QueryFormComponent {
     if (this.userQuery.trim()) {
       this.isLoading = true;
 
-      this.aiQueryService.getAiResponse(formattedQuery).subscribe(
+      this.predictService.getAiResponse(formattedQuery).subscribe(
         (response) => {
           this.aiResponse = this.formatResponse(response.response);
           this.saveToHistory(this.userQuery, this.aiResponse);
