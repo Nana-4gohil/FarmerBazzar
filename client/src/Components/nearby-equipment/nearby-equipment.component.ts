@@ -21,7 +21,7 @@ export class NearbyEquipmentComponent implements AfterViewInit {
     duration: 1
   };
 
-  private map!: L.Map;
+  private map1!: L.Map;
   filters: any
   private markers: L.Marker[] = [];
   userLatitude!: number;
@@ -49,11 +49,11 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([23.022505, 72.5713621], 5); // Default center: India
+    this.map1 = L.map('map1').setView([23.022505, 72.5713621], 5); // Default center: India
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(this.map);
+    }).addTo(this.map1);
   }
 
   private getUserLocation(): void {
@@ -62,17 +62,17 @@ export class NearbyEquipmentComponent implements AfterViewInit {
         this.userLatitude = position.latitude;
         this.userLongitude = position.longitude;
         // console.log('User location:', this.userLatitude, this.userLongitude);
-        this.getAddressFromCoordinates();
+        // this.getAddressFromCoordinates();
 
         // Set map view to user's location
-        this.map.flyTo([this.userLatitude, this.userLongitude], 12, {
+        this.map1.flyTo([this.userLatitude, this.userLongitude], 12, {
           animate: true,
           duration: 2 // Smooth transition time in seconds
         });
 
         // Add a marker for the user
         L.marker([this.userLatitude, this.userLongitude], { icon: this.customIcon })
-          .addTo(this.map)
+          .addTo(this.map1)
           .bindPopup('You are here!')
           .openPopup();
 
@@ -85,14 +85,14 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   private loadNearbyEquipment(): void {
     this.equipmentService.getNearbyEquipment(this.userLatitude, this.userLongitude, this.filters?.maxKM).subscribe({
       next: (response) => {
-        console.log('Nearby equipment:', response);
+        // console.log('Nearby equipment:', response);
         // 🔹 Clear existing markers before adding new ones
-        this.markers.forEach(marker => this.map.removeLayer(marker));
+        this.markers.forEach(marker => this.map1.removeLayer(marker));
         this.markers = []; // Reset marker array
 
         response?.data?.forEach((equipment: any) => {
           const marker = L.marker([equipment.latitude, equipment.longitude], { icon: this.customIcon })
-            .addTo(this.map)
+            .addTo(this.map1)
             .bindPopup(`
               <div style="text-align: center;">
                 <strong>${equipment.name}</strong><br/>

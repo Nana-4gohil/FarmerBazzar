@@ -11,13 +11,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class FiltersComponent {
  minMaxKM: { km_min: number; km_max: number } = {
-    km_min: 100,
-    km_max: 50000,
+    km_min: 1,
+    km_max: 50,
   };
   cats: { category__id: number; category__title: string }[] = [
-    { category__id: 1, category__title: 'Electronics' },
-    { category__id: 2, category__title: 'Furniture' },
-    { category__id: 3, category__title: 'Clothing' },
+    { category__id: 1, category__title: 'Tractors & Power Equipment' },
+    { category__id: 2, category__title: 'Tractors & Power Equipment' },
+    { category__id: 3, category__title: 'Planting & Seeding Equipment' },
+    { category__id: 4, category__title: 'Planting & Seeding Equipment' },
+    { category__id: 5, category__title: 'Harvesting Equipment' },
+    { category__id: 6, category__title: 'Crop Processing Equipment' },
+    { category__id: 7, category__title: 'Storage & Transport Equipment' },
+
   ];
 
   @Output() filterChange = new  EventEmitter<any>();

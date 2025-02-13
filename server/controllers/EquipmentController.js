@@ -147,7 +147,7 @@ const equipmentList = [
             // this.seedData();
             const userLat = parseFloat(req.query.lat);
             const userLon = parseFloat(req.query.lon);
-            const maxDistance = parseInt(req.query.maxKM); // Convert KM to meters
+            const maxDistance = parseInt(req.query.maxKM) * 1000 // Convert KM to meters
            
 
             if (!userLat || !userLon || !maxDistance) {

@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
     // Extract the token part
     //  console.log(token)
     try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
+        const decodedToken = await admin.auth().verifyIdToken(token,true);
         req.user = decodedToken; // Attach the decoded token to the request object
         next(); // Proceed to the next middleware or route handler
     } catch (error) {

@@ -90,7 +90,7 @@ export class SellCropComponent implements OnInit {
       next: (res)=>{
         this.latitude = res.latitude
         this.longitude = res.longitude
-
+        this.sellCropForm.patchValue({ sellerLatitude: this.latitude, sellerLongitude: this.longitude });
       },
       error:(err)=>{
 
@@ -102,9 +102,9 @@ export class SellCropComponent implements OnInit {
   }
   updateLocation(event:any):void {
     this.latitude = event.lat;
-    this.longitude =event.lng;
+    this.longitude = event.lng;
     this.getAddressFromCoordinates()
-    this.sellCropForm.patchValue({ sellerLatitude: event.lat, sellerLongitude: event.lng });
+    this.sellCropForm.patchValue({ sellerLatitude: this.latitude, sellerLongitude: this.longitude });
   }
 }
 

@@ -22,13 +22,12 @@ import * as L from 'leaflet';
   
     private map!: L.Map;
     private marker!: L.Marker;
-
     ngAfterViewInit() {
       this.updatePopup();
     }
     ngOnChanges(changes: SimpleChanges): void {
-      this.latitude =  changes['latitude'].currentValue
-      this.longitude  = changes['longitude'].currentValue
+      this.latitude =  changes['latitude']?.currentValue || 22.3039
+      this.longitude  = changes['longitude']?.currentValue || 70.8022
       this.loadMap();
     }
   

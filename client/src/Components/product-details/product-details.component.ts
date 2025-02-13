@@ -57,7 +57,7 @@ export class ProductDetailsComponent {
   fetchRelatedProducts(productCategory:string) : void {
     this.cropService.getCropByCategoriy(productCategory).subscribe({
       next: (res) => {
-        console.log(res.products);
+        // console.log(res.products);
         this.related = res.products;
 
       },

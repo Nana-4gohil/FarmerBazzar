@@ -21,7 +21,7 @@
           <tr>
             <th>Price</th>
             <td>
-              $<span [class]="'product-price-' + product?.productId">{{ product?.productPrice }}</span>
+              ₹ <span [class]="'product-price-' + product?.productId">{{ product?.productPrice }} per / {{product?.quantityUnit}}</span>
             </td>
           </tr>
           <tr>
@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <th>Quantity</th>
-            <td>{{ product?.productQuantity }}</td>
+            <td>{{ product?.productQuantity }} {{product?.quantityUnit}}</td>
           </tr>
           <tr>
             <th>Address</th>
