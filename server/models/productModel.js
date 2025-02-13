@@ -115,6 +115,9 @@ class Product {
     productQuantity,
     sellerAddress,
     availableFrom,
+    quantityUnit,
+    sellerLatitude,
+    sellerLongitude,
     sellerId,
   }) {
     this.pid = pid;
@@ -127,6 +130,9 @@ class Product {
     this.sellerAddress = sellerAddress;
     this.availableFrom = availableFrom;
     this.sellerId = sellerId;
+    this.quantityUnit = quantityUnit;
+    this.sellerLatitude = sellerLatitude;
+    this.sellerLongitude = sellerLongitude;
     this.productCollection = db.collection('products');
 
   }
@@ -143,6 +149,9 @@ class Product {
         productQuantity: this.productQuantity,
         sellerAddress: this.sellerAddress,
         availableFrom: this.availableFrom,
+        quantityUnit: this.quantityUnit,
+        sellerLatitude: this.sellerLatitude,
+        sellerLongitude: this.sellerLongitude,
         sellerId: this.sellerId,
         createdAt:  new Date().toISOString()
       });

@@ -18,6 +18,10 @@ class ProductController {
       productQuantity,
       sellerAddress,
       availableFrom,
+      quantityUnit,
+      sellerLatitude,
+      sellerLongitude,
+
     } = req.body;
 
     try {
@@ -52,6 +56,9 @@ class ProductController {
         productQuantity,
         sellerAddress,
         availableFrom,
+        quantityUnit,
+        sellerLatitude,
+        sellerLongitude,
         sellerId,
       });
        const createResult = await product.createProduct()
