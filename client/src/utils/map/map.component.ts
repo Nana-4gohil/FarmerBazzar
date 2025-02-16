@@ -23,12 +23,15 @@ import * as L from 'leaflet';
     private map!: L.Map;
     private marker!: L.Marker;
     ngAfterViewInit() {
+      this.fetchRoadPolylines();
       this.updatePopup();
+
     }
     ngOnChanges(changes: SimpleChanges): void {
       this.latitude =  changes['latitude']?.currentValue || 22.3039
       this.longitude  = changes['longitude']?.currentValue || 70.8022
       this.loadMap();
+     
     }
   
     loadMap(): void {
@@ -63,5 +66,40 @@ import * as L from 'leaflet';
         this.marker.bindPopup(this.popupContent).openPopup();
       }
     }
+
+    private fetchRoadPolylines(): void {
+      const overpassQuery = `
+        [out:json];
+        way["highway"](23.00,72.50,23.05,72.60); // Bounding box (Ahmedabad region)
+        out geom;
+      `;
+  
+      const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          this.processOSMData(data);
+        })
+        .catch(error => console.error("Error fetching road data:", error));
+    }
+  
+    // ✅ Process OSM Data and Draw Polylines
+    private processOSMData(data: any): void {
+      data.elements.forEach((element: any) => {
+        if (element.type === "way" && element.geometry) {
+          const latLngs = element.geometry.map((point: any) => [point.lat, point.lon]);
+  
+          // Draw polyline on map
+          const polyline = L.polyline(latLngs, { color: 'blue' }).addTo(this.map);
+  
+          // ✅ Extract Graph Data
+          // this.extractGraphFromMap(polyline);
+        }
+      });
+  
+      // console.log("Road Graph Extracted:", this.roadGraph);
+    }
+  
   }
 

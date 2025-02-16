@@ -31,8 +31,10 @@
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
     "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
     "ng-angular-popup": "^0.6.6",
     "ngx-markdown": "^18.1.0",
+    "overpass-frontend": "^3.3.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

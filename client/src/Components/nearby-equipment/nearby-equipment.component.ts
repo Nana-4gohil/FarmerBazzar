@@ -5,6 +5,7 @@ import { FiltersComponent } from '../filters/filters.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GraphService } from '../../Services/graph.service';
 @Component({
   selector: 'app-nearby-equipment',
   standalone: true,
@@ -37,7 +38,8 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   constructor(
     // private geolocationService: GeolocationService,
     private equipmentService: EquipmentService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private graphService: GraphService
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.getUserLocation();
+    this.fetchRoadPolylines()
   }
 
   private initMap(): void {
@@ -54,6 +57,10 @@ export class NearbyEquipmentComponent implements AfterViewInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map1);
+
+    this.map1.on("load", () => {
+      this.graphService.extractGraphFromMap(this.map1);
+    });
   }
 
   private getUserLocation(): void {
@@ -81,6 +88,45 @@ export class NearbyEquipmentComponent implements AfterViewInit {
       error: (error) => console.error('Error getting location:', error)
     });
   }
+
+   private fetchRoadPolylines(): void {
+        const overpassQuery = `
+          [out:json];
+          way["highway"](23.00,72.50,23.05,72.60); // Bounding box (Ahmedabad region)
+          out geom;
+        `;
+    
+        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
+    
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            this.processOSMData(data);
+          })
+          .catch(error => console.error("Error fetching road data:", error));
+      }
+    
+      // ✅ Process OSM Data and Draw Polylines
+      private processOSMData(data: any): void {
+        data.elements.forEach((element: any) => {
+          if (element.type === "way" && element.geometry) {
+            const latLngs = element.geometry.map((point: any) => [point.lat, point.lon]);
+    
+            // Draw polyline on map
+            const polyline = L.polyline(latLngs, { color: 'blue' }).addTo(this.map1);
+    
+            // ✅ Extract Graph Data
+            // this.extractGraphFromMap(polyline);
+            // this.graphService.extractGraphFromMap(this.map1);
+          }
+        });
+    
+        // console.log("Road Graph Extracted:", this.roadGraph);
+      }
+  
+
+
+
 
   private loadNearbyEquipment(): void {
     this.equipmentService.getNearbyEquipment(this.userLatitude, this.userLongitude, this.filters?.maxKM).subscribe({
