@@ -6,6 +6,7 @@ import { CropService } from '../../Services/crop.service';
 import { NgToastService } from 'ng-angular-popup';
 import { MapComponent } from '../../utils/map/map.component';
 import { EquipmentService } from '../../Services/equipment.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class SellCropComponent implements OnInit {
   latitude = 22.3072; // Default: Gujarat
   longitude = 73.1812;
   constructor(private fb: FormBuilder,private cropService:CropService, private toast:NgToastService,
-    private equipmentService:EquipmentService
+    private equipmentService:EquipmentService,
+    private router:Router
   ) {}
 
   onFileChange(event: any): void {
@@ -39,7 +41,9 @@ export class SellCropComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    if(localStorage.getItem('token')==null){
+         this.router.navigate(['/login'])
+    }
     this.getUserLocation()
     this.sellCropForm = this.fb.group({
       productName: ['', Validators.required],

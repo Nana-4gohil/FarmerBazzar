@@ -5,6 +5,7 @@ import { FiltersComponent } from '../filters/filters.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nearby-equipment',
   standalone: true,
@@ -37,11 +38,10 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   constructor(
     // private geolocationService: GeolocationService,
     private equipmentService: EquipmentService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit(): void {
-
   }
   ngAfterViewInit(): void {
     this.initMap();

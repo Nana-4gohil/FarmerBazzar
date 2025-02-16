@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -18,9 +18,12 @@ export class QueryFormComponent {
   chatHistory: { query: string; response: string }[] = [];
   isLoading: boolean = false;
 
-  constructor(private predictService:PredictService) {}
+  constructor(private predictService:PredictService , private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if(localStorage.getItem('token') === null){
+      this.router.navigate(['/login']);
+    }
     const savedHistory = localStorage.getItem('chatHistory');
     if (savedHistory) {
       this.chatHistory = JSON.parse(savedHistory);
