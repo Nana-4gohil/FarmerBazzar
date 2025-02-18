@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
  

@@ -15,6 +15,7 @@ import { SellCropComponent } from '../../Components/sell-crop/sell-crop.componen
 import { NewsComponent } from '../news/news.component';
 import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipment.component';
 import { ClimateComponent } from '../../Components/climate/climate.component'
+import { TransactionComponent } from '../../Components/transaction/transaction.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -26,7 +27,8 @@ import { ClimateComponent } from '../../Components/climate/climate.component'
     SellCropComponent,
     NewsComponent,
     AddEquipmentComponent,
-    ClimateComponent
+    ClimateComponent,
+    TransactionComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -42,9 +44,11 @@ export class DashboardComponent implements OnInit {
   showUserProfile = false;
   constructor(private router: Router) {}
   ngOnInit(): void {
-    if(localStorage.getItem('token') === null){
-      this.router.navigate(['/login']);
-    }
+    setInterval(() => {
+        if (!localStorage.getItem('token')) {
+        this.router.navigate(['/login']);
+      }
+    }, 500);
     setTimeout(() => {
       this.loading = false;
     }, 1000);

@@ -32,4 +32,13 @@ body {
     font-family: "Reem Kufi", sans-serif!important ;
   }
 
+  .hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-effect:hover {
+    transform: translateY(-5px); /* Moves card slightly up */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Adds a smooth shadow */
+  }
+  
   

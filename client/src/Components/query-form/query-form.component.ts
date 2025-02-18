@@ -21,9 +21,12 @@ export class QueryFormComponent {
   constructor(private predictService:PredictService , private router: Router) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('token') === null){
-      this.router.navigate(['/login']);
-    }
+
+    setInterval(() => {
+      if (!localStorage.getItem('token')) {
+        this.router.navigate(['/login']);
+      }
+    }, 500);
     const savedHistory = localStorage.getItem('chatHistory');
     if (savedHistory) {
       this.chatHistory = JSON.parse(savedHistory);

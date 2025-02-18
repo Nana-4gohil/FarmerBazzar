@@ -75,7 +75,7 @@ class ProductController {
   }
 
   static getProductById = async(req,res)=>{
-           const {pid} = req.params
+          const {pid} = req.params
           const product = await Product.getProductById(pid)
            return res.status(200).json({
                product
@@ -102,6 +102,15 @@ class ProductController {
         products
     })
   }
+
+   static GetProductBySellerID = async(req,res)=>{
+        const {sellerId} = req.params
+
+        const products = await Product.getProductsBySellerId(sellerId)
+        return res.status(200).json({
+            products
+         })
+   }
   static addReview = async(req,res)=>{
     const {pid} = req.params
     const {review, rating} = req.body

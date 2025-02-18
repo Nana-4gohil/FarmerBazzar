@@ -10,5 +10,6 @@ router.get('/ProductCategory/:category', ProductController.getProductByCategory)
 router.get('/GetProductById/:pid',ProductController.getProductById)
 router.get('/ProductName/:productName',ProductController.getProductByName)  
 router.post('/AddReview/:pid', verifyToken,ProductController.addReview)
+router.get('/GetProductBySellerId/:sellerId',ProductController.GetProductBySellerID)
 export default router
  

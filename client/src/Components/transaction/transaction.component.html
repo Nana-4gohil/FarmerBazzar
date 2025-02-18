@@ -1,0 +1,31 @@
+<div class="dass">
+  <main class="w-full md:w-[calc(100%-300px)] md:ml-60 min-h-screen transition-all main p-6">
+
+    <button 
+    (click)="toggleDropdown()" 
+    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded flex justify-between items-center">
+    <span>Sold Products</span>
+    <span [class]="isDropdownOpen ? 'rotate-0' : 'rotate-180'">▼</span>
+  </button>
+  <div *ngIf="isDropdownOpen" class="mt-2 border p-4 rounded-lg bg-white shadow-md">
+    <div *ngIf="soldProducts && soldProducts.length > 0; else noSoldProducts">
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div 
+          *ngFor="let product of soldProducts" 
+          [routerLink]="['/crops', product.productId]" 
+          class="cursor-pointer no-underline hover-effect"
+        >
+          <app-crop-card [product]="product"></app-crop-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <ng-template #noSoldProducts>
+    <p class="text-gray-500">No products sold yet.</p>
+  </ng-template>
+
+  </main>
+</div>
