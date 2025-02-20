@@ -14,6 +14,7 @@ import { CropRecommendationsComponent } from '../../Predict/crop-recommendations
 import { SellCropComponent } from '../../Components/sell-crop/sell-crop.component';
 import { NewsComponent } from '../news/news.component';
 import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipment.component';
+import { ClimateComponent } from '../../Components/climate/climate.component'
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -24,7 +25,8 @@ import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipm
     CropRecommendationsComponent,
     SellCropComponent,
     NewsComponent,
-    AddEquipmentComponent
+    AddEquipmentComponent,
+    ClimateComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

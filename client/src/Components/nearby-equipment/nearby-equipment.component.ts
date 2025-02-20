@@ -43,12 +43,11 @@ export class NearbyEquipmentComponent implements AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-
   }
   ngAfterViewInit(): void {
     this.initMap();
     this.getUserLocation();
-    this.fetchRoadPolylines()
+    // this.fetchRoadPolylines()
   }
 
   private initMap(): void {
@@ -89,40 +88,40 @@ export class NearbyEquipmentComponent implements AfterViewInit {
     });
   }
 
-   private fetchRoadPolylines(): void {
-        const overpassQuery = `
-          [out:json];
-          way["highway"](23.00,72.50,23.05,72.60); // Bounding box (Ahmedabad region)
-          out geom;
-        `;
+  //  private fetchRoadPolylines(): void {
+  //       const overpassQuery = `
+  //         [out:json];
+  //         way["highway"](23.00,72.50,23.05,72.60); // Bounding box (Ahmedabad region)
+  //         out geom;
+  //       `;
     
-        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
+  //       // const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
     
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            this.processOSMData(data);
-          })
-          .catch(error => console.error("Error fetching road data:", error));
-      }
+  //       // fetch(url)
+  //       //   .then(response => response.json())
+  //       //   .then(data => {
+  //       //     this.processOSMData(data);
+  //       //   })
+  //       //   .catch(error => console.error("Error fetching road data:", error));
+  //     }
     
-      // ✅ Process OSM Data and Draw Polylines
-      private processOSMData(data: any): void {
-        data.elements.forEach((element: any) => {
-          if (element.type === "way" && element.geometry) {
-            const latLngs = element.geometry.map((point: any) => [point.lat, point.lon]);
+  //     // ✅ Process OSM Data and Draw Polylines
+  //     // private processOSMData(data: any): void {
+  //     //   data.elements.forEach((element: any) => {
+  //     //     if (element.type === "way" && element.geometry) {
+  //     //       const latLngs = element.geometry.map((point: any) => [point.lat, point.lon]);
     
-            // Draw polyline on map
-            const polyline = L.polyline(latLngs, { color: 'blue' }).addTo(this.map1);
+  //     //       // Draw polyline on map
+  //     //       const polyline = L.polyline(latLngs, { color: 'blue' }).addTo(this.map1);
     
-            // ✅ Extract Graph Data
-            // this.extractGraphFromMap(polyline);
-            // this.graphService.extractGraphFromMap(this.map1);
-          }
-        });
+  //     //       // ✅ Extract Graph Data
+  //     //       // this.extractGraphFromMap(polyline);
+  //     //       // this.graphService.extractGraphFromMap(this.map1);
+  //     //     }
+  //     //   });
     
-        // console.log("Road Graph Extracted:", this.roadGraph);
-      }
+  //       // console.log("Road Graph Extracted:", this.roadGraph);
+  //     }
   
 
 
