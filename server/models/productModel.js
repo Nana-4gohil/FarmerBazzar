@@ -275,6 +275,29 @@ class Product {
       return {success:false, message:err.message}
     }
   }
+
+    // Get products by Seller ID
+    static async getProductsBySellerId(sellerId) {
+      try {
+        const productCollection = admin.firestore().collection('products');
+        const querySnapshot = await productCollection.where('sellerId', '==', sellerId).get();
+  
+        if (querySnapshot.empty) {
+          return { success: false, message: "No products found for this seller." };
+        }
+  
+        const products = querySnapshot.docs.map(doc => ({
+          productId: doc.id,
+          ...doc.data(),
+        }));
+  
+        return { success: true, data: products };
+      } catch (err) {
+        console.error("Error fetching products by sellerId:", err.message);
+        return { success: false, message: err.message };
+      }
+    }
+  
 }
 
 export default Product;
