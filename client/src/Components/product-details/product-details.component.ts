@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CropService } from '../../Services/crop.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { CropCardComponent } from '../crop-card/crop-card.component';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { MapComponent } from '../../utils/map/map.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product-details',
@@ -19,11 +20,13 @@ import { MapComponent } from '../../utils/map/map.component';
 })
 
 export class ProductDetailsComponent {
-  constructor(private route: ActivatedRoute, private cropService: CropService, private router: Router) {
+  constructor(private route: ActivatedRoute, private cropService: CropService, private router: Router
+    ,    private modalService: NgbModal,
+  ) {
   }
+  @ViewChild('ReviewModel') ReviewModel: any;
   product: any;
   data: any;
-  showReviewModal = false; 
   @Input() avgReviews: any;
   loading: boolean = false;
   reviews: any;
@@ -38,12 +41,9 @@ export class ProductDetailsComponent {
   openReviewModal() {
     if(!this.isAuthenticated) {
       this.router.navigate(['/login']);
+      return;
     }
-    this.showReviewModal = true;
-  }
-
-  closeReviewModal() {
-    this.showReviewModal = false;
+    this.modalService.open(this.ReviewModel, { centered: true });;
   }
 
  
