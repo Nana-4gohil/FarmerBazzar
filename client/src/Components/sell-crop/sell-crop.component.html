@@ -1,9 +1,9 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100 my-4">
-  <div class="card  w-100" style="max-width: 600px;">
+  <div class="card w-100" style="max-width: 600px;">
     <div class="card-header bg-success text-white text-center">
       <h3 class="mb-0">🌾 Sell Your Crop</h3>
     </div>
-    
+
     <div class="card-body">
       <form [formGroup]="sellCropForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         
@@ -94,15 +94,34 @@
             <option value="Pulses">Pulses</option>
           </select>
         </div>
+
+        <!-- Select Location -->
         <div class="mb-3 mt-3">
           <label class="form-label">📍 Select Location</label>
           <app-map [latitude]="latitude" [longitude]="longitude" [isDraggable]="true" (locationChanged)="updateLocation($event)" [popupContent]="'<p>Select Your Farm Location Drag the marker to adjust the location</p>'">
           </app-map>
         </div>
 
+        <!-- Mobile Number (New Field) -->
+        <div class="mb-3">
+          <label for="sellerMobile" class="form-label fw-bold">📞 Mobile Number</label>
+          <input 
+            type="text" 
+            id="sellerMobile" 
+            class="form-control" 
+            placeholder="Enter your mobile number" 
+            formControlName="sellerMobile"
+            maxlength="10"
+          />
+          <div *ngIf="sellCropForm.get('sellerMobile')?.touched && sellCropForm.get('sellerMobile')?.invalid" class="text-danger small">
+            <div *ngIf="sellCropForm.get('sellerMobile')?.errors?.['required']">Mobile Number is required.</div>
+            <div *ngIf="sellCropForm.get('sellerMobile')?.errors?.['pattern']">Enter a valid 10-digit mobile number.</div>
+          </div>
+        </div>
+
         <!-- Seller Address -->
         <div class="mb-3">
-          <label for="sellerAddress" class="form-label fw-bold">Seller Address</label>
+          <label for="sellerAddress" class="form-label fw-bold">🏠 Seller Address</label>
           <textarea 
             id="sellerAddress" 
             class="form-control" 
@@ -113,7 +132,7 @@
 
         <!-- Available From -->
         <div class="mb-3">
-          <label for="availableFrom" class="form-label fw-bold">Available From</label>
+          <label for="availableFrom" class="form-label fw-bold">📅 Available From</label>
           <input 
             type="date" 
             id="availableFrom" 
@@ -125,7 +144,7 @@
         <!-- Submit Button -->
         <div class="text-center">
           <button type="submit" class="btn btn-success w-100" [disabled]="sellCropForm.invalid">
-           Sell Crop
+            Sell Crop
           </button>
         </div>
 

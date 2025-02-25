@@ -3,6 +3,7 @@ import authContrtoller  from '../controllers/authController.js'
 import verifyToken from '../middlewares/verifyToken.js'
 
 
+
 const router = express.Router()
 
 router.post('/signup/request-otp',authContrtoller.requestOtp)
@@ -11,6 +12,7 @@ router.post('/login',authContrtoller.login)
 router.get('/logout',authContrtoller.logout)
 router.get('/me',verifyToken,authContrtoller.getMe)
 router.get('/getAll',authContrtoller.getAllUsers)
+router.get('/GetUser/:uid',authContrtoller.GetUserById)
 
 export default router
  

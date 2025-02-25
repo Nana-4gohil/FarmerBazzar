@@ -42,6 +42,7 @@ app.use("/api/v1/predict/",predictRoute)
 app.use("/api/v1/crop/",productRoute)
 app.use("/api/v1/notification/",notificationRoute)
 app.use("/api/v1/equipment/",equipmentRoute)
+
 const firebaseApp = firebase.initializeApp(firebaseconfig, 'ClientApp');
 
 export const auth = getAuth(firebaseApp);

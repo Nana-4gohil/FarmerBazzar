@@ -76,11 +76,12 @@ class authController {
       if (!otpVerification.success) {
         return res.status(400).json({ error: otpVerification.error });
       }
+      const fullName = firstName + " " +lastName
     
       const firebaseUser = await admin.auth().createUser({
         email,
         password,
-        displayName: firstName,
+        displayName: fullName,
       });
       // Add user to Firestore database
       const uid = firebaseUser.uid
@@ -163,6 +164,11 @@ class authController {
     return res.status(200).json({ users });
   }
   
+  static GetUserById = async(req,res)=>{
+        const {uid} = req.params
+        const user = await UserModel.getUserByUID(uid)
+        return res.status(200).json({user})
+  }
 }
 
 export default authController;

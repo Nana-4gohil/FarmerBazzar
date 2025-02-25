@@ -7,6 +7,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { MapComponent } from '../../utils/map/map.component';
 import { EquipmentService } from '../../Services/equipment.service';
 import { Router } from '@angular/router';
+import { validatePassword } from 'firebase/auth';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class SellCropComponent implements OnInit {
       productCategory: ['', Validators.required],
       productQuantity: [null, [Validators.required, Validators.min(1)]],
       quantityUnit: ['kg', Validators.required],
+      sellerMobile : ['',Validators.required],
       sellerAddress: ['', Validators.required],
       availableFrom: ['', Validators.required],
       sellerLatitude: [''],

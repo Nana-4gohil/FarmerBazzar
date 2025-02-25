@@ -114,6 +114,7 @@ class Product {
     productCategory,
     productQuantity,
     sellerAddress,
+    sellerMobile,
     availableFrom,
     quantityUnit,
     sellerLatitude,
@@ -128,6 +129,7 @@ class Product {
     this.productCategory = productCategory;
     this.productQuantity = productQuantity;
     this.sellerAddress = sellerAddress;
+    this.sellerMobile = sellerMobile;
     this.availableFrom = availableFrom;
     this.sellerId = sellerId;
     this.quantityUnit = quantityUnit;
@@ -148,12 +150,14 @@ class Product {
         productCategory: this.productCategory,
         productQuantity: this.productQuantity,
         sellerAddress: this.sellerAddress,
+        sellerMobile : this.sellerMobile,
         availableFrom: this.availableFrom,
         quantityUnit: this.quantityUnit,
         sellerLatitude: this.sellerLatitude,
         sellerLongitude: this.sellerLongitude,
         sellerId: this.sellerId,
-        createdAt:  new Date().toISOString()
+        createdAt:  new Date().toISOString(),
+        isSold : false
       });
       return { success: true};
     } catch (err) {
@@ -166,7 +170,7 @@ class Product {
   static async getProductByCategory(category) {
     try {
       const productCollection = admin.firestore().collection('products');
-      const querySnapshot = await productCollection.where('productCategory', '==', category).get();
+      const querySnapshot = await productCollection.where('productCategory', '==', category).where('isSold', '==', false).get();
 
       if (querySnapshot.empty) {
         return null; // No products found
@@ -184,27 +188,27 @@ class Product {
     }
   }
 
-  // Get all products
-  static async getAllProducts() {
-    try {
+  // Get all products (Only unsold products)
+static async getAllProducts() {
+  try {
       const productCollection = admin.firestore().collection('products');
-      const snapshot = await productCollection.get();
+      const snapshot = await productCollection.where('isSold', '==', false).get(); 
 
       if (snapshot.empty) {
-        return [];
+          return [];
       }
 
       const products = snapshot.docs.map(doc => ({
-        productId: doc.id,
-        ...doc.data(),
+          productId: doc.id,
+          ...doc.data(),
       }));
 
       return products;
-    } catch (err) {
+  } catch (err) {
       console.error("Error fetching all products:", err.message);
       return [];
-    }
   }
+}
 
   // Get product by ID
   static async getProductById(pid) {
@@ -230,7 +234,7 @@ class Product {
   // Get product by name
   static async getProductByName(productName) {
     try {
-      const productCollection = admin.firestore().collection('products');
+      const productCollection = admin.firestore().collection('products').where('isSold', '==', false);
       const querySnapshot = await productCollection.get(); // Fetch all documents
   
       if (querySnapshot.empty) {

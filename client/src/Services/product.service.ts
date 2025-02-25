@@ -14,4 +14,11 @@ export class ProductService {
   GetProductBySId(SellerId:any):Observable<any>{
     return this.http.get(`${this.url}/GetProductBySellerId/${SellerId}`);
   }
+  GetUserByUid(uid:any): Observable<any>{
+     return this.http.get(`${this.url}/`)
+  }
+  MarkProductAsSold(productId:string):Observable<any>{
+    return this.http.delete(`${this.url}/delete/${productId}`)
+ }
+
 }

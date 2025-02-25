@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
   async handleGoogleSignIn(): Promise<void> {
     try{
       var user = await this.authService.loginWithGoogle();
-    const idToken = await user.getIdToken();
+      const idToken = await user.getIdToken(true);
       localStorage.setItem('token', idToken);
       await this.router.navigate(['/']);
     }catch(err:any){

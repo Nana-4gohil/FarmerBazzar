@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { RouterModule } from '@angular/router';
-
 @NgModule({
  
   imports: [
@@ -13,6 +12,7 @@ import { RouterModule } from '@angular/router';
             // Reactive forms 
      // Reactive forms  
       // HTTP requests
+
   ],
   exports: [
     CommonModule,           // Re-export modules for other modules to use

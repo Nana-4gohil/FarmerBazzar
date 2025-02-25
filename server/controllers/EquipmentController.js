@@ -3,7 +3,6 @@ import admin from '../firebase.js';
 const db = admin.firestore();
 import geolib from 'geolib';
 
-
 const equipmentList = [
     {
       name: "John Deere Tractor",

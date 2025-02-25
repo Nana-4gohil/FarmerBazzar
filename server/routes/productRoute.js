@@ -1,6 +1,7 @@
 import express from 'express'
 import ProductController  from '../controllers/productController.js'
 import verifyToken from '../middlewares/verifyToken.js'
+import ProductSell from '../controllers/ProductSellController.js'
 
 const router = express.Router()
 
@@ -11,5 +12,7 @@ router.get('/GetProductById/:pid',ProductController.getProductById)
 router.get('/ProductName/:productName',ProductController.getProductByName)  
 router.post('/AddReview/:pid', verifyToken,ProductController.addReview)
 router.get('/GetProductBySellerId/:sellerId',ProductController.GetProductBySellerID)
+router.delete('/delete/:productId',ProductController.MarkProductAsSold)
+
 export default router
  
