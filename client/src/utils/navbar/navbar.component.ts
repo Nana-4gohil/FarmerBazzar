@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,10 @@ export class NavbarComponent implements OnInit {
 
   searchQuery: string = '';
   dropdownOpen = false;
-  constructor(private router:Router) {}
+  constructor(
+    private router:Router,
+    private tokenService : TokenService 
+  ) {}
 
   ngOnInit(): void {
     this.isAuthenticated = false;
@@ -29,7 +33,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.clear();
+    this.tokenService.removeToken()
     this.router.navigate(['/login']);
   }
   searchProducts(event:Event): void {

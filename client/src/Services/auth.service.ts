@@ -143,4 +143,3 @@ export class AuthService {
     return authState(this.auth);
   }
 }
-

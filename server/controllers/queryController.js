@@ -8,8 +8,7 @@ export const handleQuery = async (req, res) => {
       return res.status(400).json({ message: "Query is required." });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }, { apiVersion: 'v1' });    
     const response = await model.generateContent(userQuery);
     const textResponse = response.response.text();
 

@@ -8,6 +8,7 @@ import { MapComponent } from '../../utils/map/map.component';
 import { EquipmentService } from '../../Services/equipment.service';
 import { Router } from '@angular/router';
 import { validatePassword } from 'firebase/auth';
+import { TokenService } from '../../Services/token.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class SellCropComponent implements OnInit {
   longitude = 73.1812;
   constructor(private fb: FormBuilder,private cropService:CropService, private toast:NgToastService,
     private equipmentService:EquipmentService,
-    private router:Router
+    private router:Router,
+    private tokenService : TokenService
   ) {}
 
   onFileChange(event: any): void {
@@ -42,9 +44,11 @@ export class SellCropComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if(localStorage.getItem('token')==null){
-         this.router.navigate(['/login'])
-    }
+    setInterval(() => {
+      if(this.tokenService.getToken()==null){
+          this.router.navigate(['/login'])
+      }
+   }, 100);
     this.getUserLocation()
     this.sellCropForm = this.fb.group({
       productName: ['', Validators.required],

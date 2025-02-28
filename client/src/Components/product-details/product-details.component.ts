@@ -8,6 +8,7 @@ import { CropCardComponent } from '../crop-card/crop-card.component';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { MapComponent } from '../../utils/map/map.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-product-details',
@@ -22,7 +23,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ProductDetailsComponent {
   constructor(private route: ActivatedRoute, private cropService: CropService, private router: Router
     ,    private modalService: NgbModal,
-    private authService : AuthService
+    private authService : AuthService,
+    private tokenService : TokenService
+
   ) {
   }
   @ViewChild('ReviewModel') ReviewModel: any;
@@ -48,11 +51,16 @@ export class ProductDetailsComponent {
     this.modalService.open(this.ReviewModel, { centered: true });;
   }
 
- 
   ngOnInit(): void {
-    if (localStorage.getItem('token') !== null) {
-      this.isAuthenticated = true;
-    }
+    setInterval(() => {
+      if(this.tokenService.getToken()==null){
+         this.isAuthenticated = false;
+      }
+      else{
+         this.isAuthenticated = true;
+      }
+    }, 100);
+  
     const id = this.route.snapshot.paramMap.get('id');
     this.fetchProductById(id);
   }
@@ -118,6 +126,10 @@ export class ProductDetailsComponent {
 
   contactSeller() {
 
+    if(!this.isAuthenticated) {
+      this.router.navigate(['/login']);
+      return;
+    }
     const userAgent = navigator.userAgent || navigator.vendor;
 
     if (/android|iphone|ipad|iPod/i.test(userAgent)) {

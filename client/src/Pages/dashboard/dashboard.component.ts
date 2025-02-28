@@ -16,6 +16,7 @@ import { NewsComponent } from '../news/news.component';
 import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipment.component';
 import { ClimateComponent } from '../../Components/climate/climate.component'
 import { TransactionComponent } from '../../Components/transaction/transaction.component';
+import { TokenService } from '../../Services/token.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -42,13 +43,16 @@ export class DashboardComponent implements OnInit {
   loading = true;
   activeSection = 'dashboard';
   showUserProfile = false;
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private tokenService : TokenService
+  ) {}
   ngOnInit(): void {
     setInterval(() => {
-        if (!localStorage.getItem('token')) {
-        this.router.navigate(['/login']);
-      }
-    }, 500);
+       if(this.tokenService.getToken()==null){
+           this.router.navigate(['/login'])
+       }
+    }, 100);
     setTimeout(() => {
       this.loading = false;
     }, 1000);
@@ -74,7 +78,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.clear();
+    this.tokenService.removeToken();
     this.router.navigate(['/login']);
   }
 }
