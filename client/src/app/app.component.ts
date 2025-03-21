@@ -29,7 +29,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const hiddenRoutes = ['/login', '/dashboard']; // Add routes where navbar/footer should be hidden
+        const hiddenRoutes = ['/login', '/dashboard','/signup']; // Add routes where navbar/footer should be hidden
         this.showNavbarFooter = !hiddenRoutes.includes(event.url);
       }
     });

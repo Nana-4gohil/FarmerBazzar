@@ -48,11 +48,9 @@ export class DashboardComponent implements OnInit {
     private tokenService : TokenService
   ) {}
   ngOnInit(): void {
-    setInterval(() => {
        if(this.tokenService.getToken()==null){
            this.router.navigate(['/login'])
        }
-    }, 100);
     setTimeout(() => {
       this.loading = false;
     }, 1000);

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { PredictService } from '../../Services/predict.service';
 import { TokenService } from '../../Services/token.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-query-form',
@@ -22,16 +23,21 @@ export class QueryFormComponent {
   constructor(
     private predictService:PredictService , 
     private router: Router,
-    private tokenService : TokenService
+    private tokenService : TokenService,
+    private toast:NgToastService
   ) {}
 
   ngOnInit(): void {
 
-    setInterval(() => {
+  //   setInterval(() => {
+  //     if(this.tokenService.getToken()==null){
+  //         this.router.navigate(['/login'])
+  //     }
+  //  }, 100);
+
       if(this.tokenService.getToken()==null){
           this.router.navigate(['/login'])
       }
-   }, 100);
     const savedHistory = localStorage.getItem('chatHistory');
     if (savedHistory) {
       this.chatHistory = JSON.parse(savedHistory);
@@ -61,6 +67,7 @@ export class QueryFormComponent {
         },
         (error) => {
           console.error('Error fetching AI response', error);
+          this.toast.danger("you are not Logged in ! Please Refresh the Page")
           this.isLoading = false;
         }
       );
