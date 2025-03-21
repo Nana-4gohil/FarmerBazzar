@@ -5,8 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { AuthService } from '../../Services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
-
-
+import {TokenService} from '../../Services/token.service'
 
 @Component({
   selector: 'app-login',
@@ -25,6 +24,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
    private authService: AuthService,
+   private tokenService : TokenService,
    private toast:NgToastService
   ) {
     this.loginForm = this.fb.group({
@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
       this.authService.Login(userData).subscribe({
         next: (res) => {
           const {token} = res
-          localStorage.setItem("token", token);
+          this.tokenService.storeToken(token)
+          //localStorage.setItem('token', token);
           this.toast.success('Login successful');
           this.router.navigate(['/'])
         },
@@ -72,7 +73,8 @@ export class LoginComponent implements OnInit {
     try{
       var user = await this.authService.loginWithGoogle();
       const idToken = await user.getIdToken(true);
-      localStorage.setItem('token', idToken);
+      this.tokenService.storeToken(idToken)
+    //  localStorage.setItem('token', idToken);
       await this.router.navigate(['/']);
     }catch(err:any){
       console.log(err);

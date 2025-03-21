@@ -1,7 +1,10 @@
 import express from 'express'
 import ProductController  from '../controllers/productController.js'
 import verifyToken from '../middlewares/verifyToken.js'
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2fad3f4334f6f216405799042896867331552c5
 
 const router = express.Router()
 

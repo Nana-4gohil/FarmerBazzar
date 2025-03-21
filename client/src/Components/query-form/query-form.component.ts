@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { PredictService } from '../../Services/predict.service';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-query-form',
@@ -18,15 +19,19 @@ export class QueryFormComponent {
   chatHistory: { query: string; response: string }[] = [];
   isLoading: boolean = false;
 
-  constructor(private predictService:PredictService , private router: Router) {}
+  constructor(
+    private predictService:PredictService , 
+    private router: Router,
+    private tokenService : TokenService
+  ) {}
 
   ngOnInit(): void {
 
     setInterval(() => {
-      if (!localStorage.getItem('token')) {
-        this.router.navigate(['/login']);
+      if(this.tokenService.getToken()==null){
+          this.router.navigate(['/login'])
       }
-    }, 500);
+   }, 100);
     const savedHistory = localStorage.getItem('chatHistory');
     if (savedHistory) {
       this.chatHistory = JSON.parse(savedHistory);

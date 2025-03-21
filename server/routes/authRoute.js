@@ -2,8 +2,6 @@ import express from 'express'
 import authContrtoller  from '../controllers/authController.js'
 import verifyToken from '../middlewares/verifyToken.js'
 
-
-
 const router = express.Router()
 
 router.post('/signup/request-otp',authContrtoller.requestOtp)

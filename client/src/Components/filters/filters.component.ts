@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TokenService } from '../../Services/token.service';
+
 
 @Component({
   selector: 'app-filters',
@@ -31,9 +34,17 @@ export class FiltersComponent {
     categories: new Set<number>(),
   };
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private tokenService : TokenService
+  ) {}
 
   ngOnInit() {
+    setInterval(() => {
+      if(this.tokenService.getToken()==null){
+          this.router.navigate(['/login'])
+      }
+   }, 100);
     this.selectedFilters['maxKM'] = this.minMaxKM?.km_max || 0;
   }
 
