@@ -131,6 +131,25 @@ class UserModel {
       throw new Error('Failed to fetch users from Firestore');
     }
   }
+
+  static async updateUserByUID(uid, updatedData) {
+    try {
+      const userCollection = admin.firestore().collection("users");
+      const userDoc = userCollection.doc(uid);
+  
+      const docSnapshot = await userDoc.get();
+      if (!docSnapshot.exists) {
+        throw new Error("User not found");
+      }
+  
+      await userDoc.update(updatedData); // Update user data
+      return { success: true, message: "User updated successfully" };
+    } catch (error) {
+      console.error("Error updating user:", error.message);
+      throw new Error("Failed to update user in Firestore");
+    }
+  }
+
 }
 
 export default UserModel;

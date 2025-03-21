@@ -13,6 +13,7 @@ router.get('/logout',authContrtoller.logout)
 router.get('/me',verifyToken,authContrtoller.getMe)
 router.get('/getAll',authContrtoller.getAllUsers)
 router.get('/GetUser/:uid',authContrtoller.GetUserById)
+router.put("/update",verifyToken,authContrtoller.UpdateUser)
 
 export default router
  

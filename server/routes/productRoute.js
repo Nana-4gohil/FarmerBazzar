@@ -1,7 +1,7 @@
 import express from 'express'
 import ProductController  from '../controllers/productController.js'
 import verifyToken from '../middlewares/verifyToken.js'
-import ProductSell from '../controllers/ProductSellController.js'
+
 
 const router = express.Router()
 
