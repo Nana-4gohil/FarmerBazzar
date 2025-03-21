@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { PulseLoaderComponent } from '../../utils/pulse-loader/pulse-loader.component';
 import { ErrorBoundaryComponent } from '../errorboundary/errorboundary.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faQuestionCircle, faCircleQuestion ,faFile,
-  faRightFromBracket,faChevronDown
+import {
+  faQuestionCircle, faCircleQuestion, faFile,
+  faRightFromBracket, faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TempChartComponent } from '../temp-chart/temp-chart.component';
@@ -17,10 +18,11 @@ import { AddEquipmentComponent } from '../../Components/add-equipment/add-equipm
 import { ClimateComponent } from '../../Components/climate/climate.component'
 import { TransactionComponent } from '../../Components/transaction/transaction.component';
 import { TokenService } from '../../Services/token.service';
+import { UserprofileComponent } from '../../Components/userprofile/userprofile.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule,PulseLoaderComponent,ErrorBoundaryComponent,
+  imports: [CommonModule, FontAwesomeModule, PulseLoaderComponent, ErrorBoundaryComponent,
     SidebarComponent,
     TempChartComponent,
     CropComponent,
@@ -29,14 +31,15 @@ import { TokenService } from '../../Services/token.service';
     NewsComponent,
     AddEquipmentComponent,
     ClimateComponent,
-    TransactionComponent
+    TransactionComponent,
+    UserprofileComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   fque = faQuestionCircle
-  faFile = faFile 
+  faFile = faFile
   faLogout = faRightFromBracket
   faHelp = faCircleQuestion
   faChevronDown = faChevronDown

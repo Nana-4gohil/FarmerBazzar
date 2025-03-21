@@ -1,4 +1,4 @@
-//import { createProduct, getAllProducts,getProductByCategory,getProductById} from '../models/productModel.js';
+// import { createProduct, getAllProducts,getProductByCategory,getProductById} from '../models/productModel.js';
 import Product from '../models/productModel.js'
 import { v4 as uuidv4 } from 'uuid';
 import { v2 as cloudinary } from 'cloudinary'

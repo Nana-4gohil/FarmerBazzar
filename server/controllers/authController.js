@@ -169,6 +169,25 @@ class authController {
         const user = await UserModel.getUserByUID(uid)
         return res.status(200).json({user})
   }
+  static UpdateUser = async(req,res)=>{
+    try {
+      const uid = req.user?.uid; // Populated by middleware
+      const userData = req.body;
+      if (!uid) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const user = await UserModel.getUserByUID(uid); // Fetch user from Firestore
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      await UserModel.updateUserByUID(uid,userData);
+      return res.status(200).json({message:"Update profile Successfully.."})
+
+    } catch (error) {
+      console.error("UpdateUser error:", error.message);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
 }
 
 export default authController;
