@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       this.authService.Login(userData).subscribe({
         next: (res) => {
           const {token} = res
-          localStorage.setItem('token', token);
+          localStorage.setItem("token", token);
           this.toast.success('Login successful');
           this.router.navigate(['/'])
         },

@@ -30,7 +30,7 @@
 //     return this.http.get(`${this.url}/GetUser/${uid}`)
 //   }
 //   // Sign in with Google
- 
+
 //   async loginWithGoogle(): Promise<any> {
 //     // Force the user to select an account every time
 //     try {
@@ -62,15 +62,15 @@
 //     return authState(this.auth);
 //   }
 
- 
+
 // }
 
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider, signOut, authState } from '@angular/fire/auth';
-import { Observable, from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -79,12 +79,17 @@ export class AuthService {
 
   private provider = new GoogleAuthProvider();
   private url: string = 'http://localhost:8080/api/v1/auth';
-
+  token: any;
   constructor(private auth: Auth, private http: HttpClient) {
+    this.token = localStorage.getItem("token");
+
     this.provider.setCustomParameters({
       prompt: 'select_account', // Forces account selection
     });
+
+
   }
+
 
   // Get the latest Firebase authentication token
   private getAuthToken(): Observable<string> {
@@ -128,19 +133,43 @@ export class AuthService {
   }
 
   // Sign out
-  async logout(): Promise<void> {
+  logout(): Observable<any> {
+
     try {
-      await signOut(this.auth);
-      console.log('User signed out');
+      const providerId = this.auth?.currentUser?.providerData[0]?.providerId; // Check auth provider
+      if (providerId === 'google.com') {
+        // If user logged in with Google, call Firebase signOut
+        return from(signOut(this.auth)).pipe(
+          catchError(error => {
+            console.error('Error during Google logout:', error);
+            return of(undefined);
+          })
+        );
+      } else {
+        // If user logged in with Email/Password, call backend API
+        return this.http.get(`${this.url}/logout`);
+
+      }
     } catch (error) {
-      console.error('Error during sign-out:', error);
-      throw error;
+      console.error('Error during logout:', error);
     }
+    return of(undefined);
   }
 
   // Get current user state as an observable
   getUser(): Observable<any> {
     return authState(this.auth);
   }
+  getMe(): Observable<any> {
+  
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+        return this.http.get(`${this.url}/me`, { headers });
+  }
+
+  updateUser(data: any): Observable<any> {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+        return this.http.put(`${this.url}/update`, data, { headers });
+  }
+
 }
 

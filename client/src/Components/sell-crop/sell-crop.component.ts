@@ -32,12 +32,15 @@ export class SellCropComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) {
+  
       const reader = new FileReader();
       reader.onload = () => {
         this.img = reader.result as string; // Set the image preview URL
       };
       reader.readAsDataURL(file); // Convert file to base64
     }
+
+   
   }
 
 

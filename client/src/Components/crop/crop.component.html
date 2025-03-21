@@ -11,11 +11,10 @@
             }@else{
             <div class="row">
                 @for(crop of products ; track crop.productId){
-
-                <div class="col-lg-3 col-sm-4 mb-4 cursor-pointer" [routerLink]="['/crops', crop.productId]">
-                    <app-crop-card [product]="crop"></app-crop-card>
-                </div>
-
+                    <app-crop-card [product]="crop" class="col-lg-3 col-sm-3 mb-4 cursor-pointer"
+                    
+                    [routerLink]="['/crops', crop.productId]"></app-crop-card>
+    
                 } 
             </div>
             }
