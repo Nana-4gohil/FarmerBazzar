@@ -71,7 +71,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider, signOut, authState } from '@angular/fire/auth';
 import { Observable, from, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-
+import { TokenService } from './token.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -80,16 +80,13 @@ export class AuthService {
   private provider = new GoogleAuthProvider();
   private url: string = 'http://localhost:8080/api/v1/auth';
   token: any;
-  constructor(private auth: Auth, private http: HttpClient) {
-    this.token = localStorage.getItem("token");
+  constructor(private auth: Auth, private http: HttpClient,private tokenService : TokenService) {
+    this.token = tokenService.getToken();
 
     this.provider.setCustomParameters({
       prompt: 'select_account', // Forces account selection
     });
-
-
   }
-
 
   // Get the latest Firebase authentication token
   private getAuthToken(): Observable<string> {
@@ -97,9 +94,20 @@ export class AuthService {
   }
 
   // Login
+  // Login(user: any): Observable<any> {
+  //   return this.http.post(`${this.url}/login`, user);
+  // }
   Login(user: any): Observable<any> {
-    return this.http.post(`${this.url}/login`, user);
+    return this.http.post(`${this.url}/login`, user).pipe(
+      tap(() => {
+        // Force Firebase to reload the current user
+        this.auth.currentUser?.reload().then(() => {
+          console.log("User reloaded:", this.auth.currentUser);
+        });
+      })
+    );
   }
+  
 
   // Request OTP
   RequestOTP(email: any): Observable<any> {
@@ -148,7 +156,6 @@ export class AuthService {
       } else {
         // If user logged in with Email/Password, call backend API
         return this.http.get(`${this.url}/logout`);
-
       }
     } catch (error) {
       console.error('Error during logout:', error);
@@ -161,7 +168,7 @@ export class AuthService {
     return authState(this.auth);
   }
   getMe(): Observable<any> {
-  
+        console.log(this.auth?.currentUser?.uid)
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
         return this.http.get(`${this.url}/me`, { headers });
   }

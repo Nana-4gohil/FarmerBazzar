@@ -49,10 +49,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const userData = this.loginForm.value;
       this.loading = true;
+      await this.authService.logout().toPromise();
       this.authService.Login(userData).subscribe({
         next: (res) => {
           const {token} = res
           this.tokenService.storeToken(token)
+          localStorage.setItem("loginMethod","manual")
           //localStorage.setItem('token', token);
           this.toast.success('Login successful');
           this.router.navigate(['/'])
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
       var user = await this.authService.loginWithGoogle();
       const idToken = await user.getIdToken(true);
       this.tokenService.storeToken(idToken)
+      localStorage.setItem("loginMethod","Google")
     //  localStorage.setItem('token', idToken);
       await this.router.navigate(['/']);
     }catch(err:any){

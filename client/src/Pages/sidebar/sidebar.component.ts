@@ -13,6 +13,7 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class SidebarComponent implements OnChanges, OnInit {
   user:any;
+  ismanual:boolean = false;
   profileImageUrl:any;
   defaultAvatar:any = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png';
   @Input() activeSection!: string;
@@ -29,6 +30,9 @@ export class SidebarComponent implements OnChanges, OnInit {
     }
   }
   ngOnInit(): void {
+    if(localStorage.getItem("loginMethod")=="manual"){
+        this.ismanual = true;
+    }
       this.getUserProfile();
   }
 

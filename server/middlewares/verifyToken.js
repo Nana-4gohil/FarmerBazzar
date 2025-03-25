@@ -1,15 +1,13 @@
 import admin from '../firebase.js';
+import { auth } from '../server.js';
 
 const verifyToken = async (req, res, next) => {
      const authHeader = req.headers.authorization;
-    
     if (!authHeader) {
         return res.status(401).json({ error: 'No token provided or invalid format' });
     }
-
     const token = authHeader.split('Bearer ')[1];
     // Extract the token part
-     //console.log(token)
     try {
         const decodedToken = await admin.auth().verifyIdToken(token);
         req.user = decodedToken; // Attach the decoded token to the request object
