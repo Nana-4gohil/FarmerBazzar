@@ -111,7 +111,8 @@ class UserModel {
       if (!userDoc.exists) {
         return null; // User not found
       }
-      return userDoc.data(); // Return user data
+      const userData = userDoc.data();
+      return { uid, ...userData };  // Return user data
     } catch (error) {
       console.error("Error fetching user:", error.message);
       throw new Error('Failed to fetch user from Firestore');

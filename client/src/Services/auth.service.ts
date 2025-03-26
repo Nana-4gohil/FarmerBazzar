@@ -79,7 +79,7 @@ export class AuthService {
 
   private provider = new GoogleAuthProvider();
   private url: string = 'http://localhost:8080/api/v1/auth';
-  token: any;
+  private token: any;
   constructor(private auth: Auth, private http: HttpClient,private tokenService : TokenService) {
     this.token = tokenService.getToken();
 

@@ -108,12 +108,15 @@ class authController {
       }
 
       // Retrieve user details from Firestore
-      const user = await UserModel.getUserByUID(userCredential.user.uid);
+      let  user = await UserModel.getUserByUID(userCredential.user.uid);
+     
 
       if (!user) {
         return res.status(400).json({ error: "User not found in database" });
       }
+      user = { ...user, uid: userCredential.user.uid };
 
+    
       // Generate a custom token for session management (optional)
       const idToken = await userCredential.user.getIdToken(true);
       return res.status(200).json({

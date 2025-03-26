@@ -1,9 +1,10 @@
 import genAI from '../utils/openaiConfig.js'
 
-export const handleQuery = async (req, res) => {
+class QueryController{
+
+static handleQuery = async (req, res) => {
   try {
     const { userQuery } = req.body;
-  
     if (!userQuery) {
       return res.status(400).json({ message: "Query is required." });
     }
@@ -22,4 +23,8 @@ export const handleQuery = async (req, res) => {
   }
 };
 
-export default handleQuery;
+
+}
+
+
+export default QueryController;

@@ -6,6 +6,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { PredictService } from '../../Services/predict.service';
 import { TokenService } from '../../Services/token.service';
 import { NgToastService } from 'ng-angular-popup';
+import { Auth} from '@angular/fire/auth';
+import { AuthService } from '../../Services/auth.service';
+
 
 @Component({
   selector: 'app-query-form',
@@ -19,31 +22,62 @@ export class QueryFormComponent {
   aiResponse: string = '';
   chatHistory: { query: string; response: string }[] = [];
   isLoading: boolean = false;
-
+  user : any = null
+  userId: any = ''
+  
   constructor(
     private predictService:PredictService , 
     private router: Router,
     private tokenService : TokenService,
-    private toast:NgToastService
+    private toast:NgToastService,
+    private auth: Auth,
+    private authService : AuthService
   ) {}
 
   ngOnInit(): void {
-
-  //   setInterval(() => {
-  //     if(this.tokenService.getToken()==null){
-  //         this.router.navigate(['/login'])
-  //     }
-  //  }, 100);
-
-      if(this.tokenService.getToken()==null){
-          this.router.navigate(['/login'])
-      }
-    const savedHistory = localStorage.getItem('chatHistory');
+    if (this.tokenService.getToken() == null) {
+      this.router.navigate(['/login']);
+      return;
+    }
+  
+    this.userId = this.auth.currentUser?.uid;
+  
+    if (this.userId === undefined) {
+      this.authService.getMe().subscribe(
+        (user) => {
+          this.user = user;
+          if (!this.userId) {
+            this.userId = this.user?.uid;
+          }
+  
+          console.log("User ID from getMe():", this.userId);
+  
+          if (!this.userId) {
+            this.toast.danger('User ID not found. Please log in again.');
+            return;
+          }
+  
+          // Load chat history after getting the user ID
+          this.loadChatHistory();
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
+          this.toast.danger('Failed to fetch user. Please log in again.');
+        }
+      );
+    } else {
+      console.log("User ID from auth:", this.userId);
+      this.loadChatHistory();
+    }
+  }
+  
+  loadChatHistory(): void {
+    const savedHistory = localStorage.getItem(`chatHistory_${this.userId}`);
     if (savedHistory) {
       this.chatHistory = JSON.parse(savedHistory);
     }
   }
-
+  
   onSubmit() {
 
     const formattedQuery = `
@@ -83,12 +117,26 @@ export class QueryFormComponent {
   }
   
   saveToHistory(query: string, response: string) {
-    this.chatHistory.push({ query, response });
-    localStorage.setItem('chatHistory', JSON.stringify(this.chatHistory));
-  }
+   
+    if (!this.userId) {
+      this.toast.danger('User ID not found. Please log in again.');
+      return;
+    }
+
+    //Retrive the existing chat history for the user
+    const userChatHistory  = JSON.parse(localStorage.getItem(`chatHistory_${this.userId}`) || '[]')
+    userChatHistory.push({query,response})
+
+  // Save updated chat history in localStorage
+   localStorage.setItem(`chatHistory_${this.userId}`, JSON.stringify(userChatHistory));  }
 
   clearHistory() {
+
+    if (!this.userId) {
+      this.toast.danger('User ID not found. Please log in again.');
+      return;
+    }
     this.chatHistory = [];
-    localStorage.removeItem('chatHistory');
+    localStorage.removeItem(`chatHistory_${this.userId}`);
   }
 }
