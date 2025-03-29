@@ -19,6 +19,9 @@ export class PredictService {
   CropPredict(data:any):Observable<any>{
     return this.http.post(`${this.url}/recommend`,data)
   }
+  FertilizerPredict(data:any):Observable<any>{
+         return this.http.post(`${this.url}/fertilizerRecommend`,data)
+  }
   getNews():Observable<any>{
     return this.http.get(this.apiUrl)
   }

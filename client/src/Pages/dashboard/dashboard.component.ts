@@ -19,6 +19,7 @@ import { ClimateComponent } from '../../Components/climate/climate.component'
 import { TransactionComponent } from '../../Components/transaction/transaction.component';
 import { TokenService } from '../../Services/token.service';
 import { UserprofileComponent } from '../../Components/userprofile/userprofile.component';
+import { FertilizerRecommendationsComponent } from '../../Predict/fertilizer-recommendations/fertilizer-recommendations.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -27,6 +28,7 @@ import { UserprofileComponent } from '../../Components/userprofile/userprofile.c
     TempChartComponent,
     CropComponent,
     CropRecommendationsComponent,
+    FertilizerRecommendationsComponent,
     SellCropComponent,
     NewsComponent,
     AddEquipmentComponent,

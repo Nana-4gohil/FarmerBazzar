@@ -1,4 +1,4 @@
 node_modules/
 firebase.js
 firebaseServiceAccount.json
-
+server/FertilizerRecommendation/fertilizer_recommendation.pkl

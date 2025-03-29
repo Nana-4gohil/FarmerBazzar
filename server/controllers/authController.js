@@ -145,7 +145,7 @@ class authController {
   static getMe = async (req, res) => {
     try {
       const uid = req.user?.uid; // Populated by middleware
-      console.log(uid)
+
       if (!uid) {
         return res.status(401).json({ error: "Unauthorized" });
       }
