@@ -1,12 +1,12 @@
 import express from 'express'
 import PredictionController from '../controllers/PredictionController.js'
 import QueryController from '../controllers/queryController.js'
-
+import verifyToken from '../middlewares/verifyToken.js'
 
 const router = express.Router()
 
-router.post('/recommend', PredictionController.preditCrop)
-router.post("/query",QueryController.handleQuery)
-router.post("/fertilizerRecommend",PredictionController.predictFertilizer)
+router.post('/recommend',verifyToken,PredictionController.preditCrop)
+router.post("/query",verifyToken,QueryController.handleQuery)
+router.post("/fertilizerRecommend",verifyToken,PredictionController.predictFertilizer)
 
 export default router

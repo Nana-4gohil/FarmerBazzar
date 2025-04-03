@@ -88,10 +88,10 @@ export class AuthService {
     });
   }
 
-  // Get the latest Firebase authentication token
-  private getAuthToken(): Observable<string> {
-    return from(this.auth.currentUser?.getIdToken(true) ?? Promise.resolve(''));
-  }
+  // // Get the latest Firebase authentication token
+  // private getAuthToken(): Observable<string> {
+  //   return from(this.auth.currentUser?.getIdToken(true) ?? Promise.resolve(''));
+  // }
 
   // Login
   // Login(user: any): Observable<any> {
@@ -121,12 +121,8 @@ export class AuthService {
 
   // Get User By ID (Requires Auth Token)
   UserById(uid: any): Observable<any> {
-    return this.getAuthToken().pipe(
-      switchMap(token => {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this.http.get(`${this.url}/GetUser/${uid}`, { headers });
-      })
-    );
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.get(`${this.url}/GetUser/${uid}`, { headers });
   }
 
   // Sign in with Google

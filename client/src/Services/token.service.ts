@@ -49,7 +49,11 @@ export class TokenService {
       this.removeToken();
       return null;
     }
-    return this.decryptToken(localStorage.getItem("token")!);
+    const token = this.decryptToken(localStorage.getItem("token")!)
+    if (token) {
+       this.storeToken(token)
+    }
+  return token
   }
    // Remove token
    removeToken(): void {

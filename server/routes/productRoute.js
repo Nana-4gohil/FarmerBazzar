@@ -10,7 +10,7 @@ router.get('/GetProductById/:pid',ProductController.getProductById)
 router.get('/ProductName/:productName',ProductController.getProductByName)  
 router.post('/AddReview/:pid', verifyToken,ProductController.addReview)
 router.get('/GetProductBySellerId/:sellerId',ProductController.GetProductBySellerID)
-router.delete('/delete/:productId',ProductController.MarkProductAsSold)
+router.delete('/delete/:productId',verifyToken,ProductController.MarkProductAsSold)
 
 export default router
  

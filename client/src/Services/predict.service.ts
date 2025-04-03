@@ -17,11 +17,13 @@ export class PredictService {
   apiUrl:string = 'https://newsapi.org/v2/everything?q=farming&apiKey=714ef9b8a6ef47d19b4bda6f4f0d100f';
   
   CropPredict(data:any):Observable<any>{
-    return this.http.post(`${this.url}/recommend`,data)
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post(`${this.url}/recommend`,data,{headers})
   }
   FertilizerPredict(data:any):Observable<any>{
-         return this.http.post(`${this.url}/fertilizerRecommend`,data)
-  }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post(`${this.url}/fertilizerRecommend`,data,{headers})
+}
   getNews():Observable<any>{
     return this.http.get(this.apiUrl)
   }

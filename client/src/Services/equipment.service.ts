@@ -60,6 +60,7 @@ import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { TokenService } from './token.service'
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,11 @@ import { switchMap } from 'rxjs/operators';
 export class EquipmentService {
   private url: string = "https://nominatim.openstreetmap.org/reverse";
   private baseUrl: string = "http://localhost:8080/api/v1/equipment";
+  private token : any
 
-  constructor(private http: HttpClient, private auth: Auth) {}
+  constructor(private http: HttpClient, private auth: Auth,private tokenService : TokenService) {
+       this.token = tokenService.getToken()
+  }
 
   // Get the latest Firebase authentication token
   private getAuthToken(): Observable<string> {

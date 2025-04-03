@@ -52,14 +52,17 @@ import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
+import { TokenService } from '../Services/token.service'
 @Injectable({
   providedIn: 'root'
 })
 export class CropService {
   private url: string = 'http://localhost:8080/api/v1/crop';
+  private token: any = ''
 
-  constructor(private http: HttpClient, private auth: Auth) {}
+  constructor(private http: HttpClient, private auth: Auth,private tokenService : TokenService) {
+       this.token = tokenService.getToken();
+  }
 
   // Function to get the latest Firebase Token
   private getAuthToken(): Observable<string> {
@@ -68,12 +71,8 @@ export class CropService {
 
   // Get All Crops
   getAllCrops(): Observable<any> {
-    return this.getAuthToken().pipe(
-      switchMap(token => {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
         return this.http.get(`${this.url}/GetAllProducts`, { headers });
-      })
-    );
   }
 
   // Get Crop By ID
@@ -83,12 +82,9 @@ export class CropService {
 
   // Add Crop
   AddCrop(data: any): Observable<any> {
-    return this.getAuthToken().pipe(
-      switchMap(token => {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this.http.post(`${this.url}/Add`, data, { headers });
-      })
-    );
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post(`${this.url}/Add`, data, { headers });
+
   }
 
   // Get Crop By Category
@@ -103,12 +99,8 @@ export class CropService {
   
   // Add Review
   addReview(data: any, productId: string): Observable<any> {
-    return this.getAuthToken().pipe(
-      switchMap(token => {
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this.http.post(`${this.url}/AddReview/${productId}`, data, { headers });
-      })
-    );
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post(`${this.url}/AddReview/${productId}`, data, { headers });
   }
 
   // Get Reviews
