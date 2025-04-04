@@ -8,7 +8,7 @@ import { SellCropComponent } from '../Components/sell-crop/sell-crop.component';
 import { SearchComponent } from '../Components/search/search.component';
 import { QueryFormComponent } from '../Components/query-form/query-form.component';
 import { NearbyEquipmentComponent } from '../Components/nearby-equipment/nearby-equipment.component';
-
+import { UserManualComponent } from '../Components/user-manual/user-manual.component';
 
 export const routes: Routes = [
     {
@@ -47,6 +47,10 @@ export const routes: Routes = [
     {
         path:'sell-crop',
         component:SellCropComponent
+    },
+    {
+        path:'user-manual',
+        component:UserManualComponent
     }
 
 

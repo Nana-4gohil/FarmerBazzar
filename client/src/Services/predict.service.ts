@@ -29,6 +29,7 @@ export class PredictService {
   }
   getAiResponse(userQuery: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    //console.log(this.token)
     return this.http.post<any>(`${this.url}/query`, {userQuery},{headers});
   }
 }
